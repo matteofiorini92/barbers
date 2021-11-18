@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +58,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'barbers_flo.urls'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 TEMPLATES = [
     {
