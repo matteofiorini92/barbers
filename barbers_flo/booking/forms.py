@@ -1,5 +1,6 @@
 from django import forms
 from .models import Barber, Treatment, Booking
+from django.forms import DateField, TimeField, widgets
 
 
 class BarberForm(forms.ModelForm):
@@ -24,8 +25,10 @@ class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = '__all__'
+        widgets = {
+            'date': widgets.DateInput(attrs={'type': 'date'}),
+            'time': widgets.TimeInput(attrs={'type': 'time'})
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        barbers = Barber.objects.all()
-        treatments = Treatment.objects.all()

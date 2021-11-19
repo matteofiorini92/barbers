@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <hr>
+                <h2 class="logo-font mb-4">Book Now</h2>
+                <h5 class="text-muted">Make a new reservation</h5>
+                <hr>
+            </div>
+        </div>
+        {% for treatment in treatments %}
+            <div class="row">
+                <div class="treatment-name col-12 col-md-6">{{ treatment.name }}</div>
+                <div class="treatment-duration col-4 col-md-2">{{ treatment.duration }}</div>
+                <div class="treatment-price col-4 col-md-2">{{ treatment.price }}</div>
+                <a href="{% url 'new_booking_2' treatment.id %}" class="btn treatment-select col-4 col-md-2">Choose</a>
+            </div>
+        {% endfor %}
+        <div class="text-right">
+            <a class="btn btn-outline-black rounded-0" href="{% url 'home' %}">Cancel</a>
+            <button class="btn btn-black rounded-0" type="submit">Next</button>
+        </div>
+    </div>
+{% endblock %}

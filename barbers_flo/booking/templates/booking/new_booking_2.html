@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <hr>
+                <h2 class="logo-font mb-4">Book Now</h2>
+                <h5 class="text-muted">Make a new reservation</h5>
+                <hr>
+            </div>
+        </div>
+        {% for day in days %}
+            <div class="row">
+                <div class="treatment-name col-3">{{ day.0|date:"d" }}</div>
+                <div class="treatment-name col-3">{{ day.0|date:"M" }}</div>
+                <div class="treatment-name col-3">{{ day.0|date:"l" }}</div>
+                <div class="treatment-name col-3">{{ day.1 }}</div>
+            </div>
+        {% endfor %}
+        <div class="text-right">
+            <a class="btn btn-outline-black rounded-0" href="{% url 'home' %}">Cancel</a>
+            <button class="btn btn-black rounded-0" type="submit">Next</button>
+        </div>
+    </div>
+{% endblock %}
