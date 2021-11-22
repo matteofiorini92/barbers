@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .forms import BookingForm
-from .models import Treatment
+from .models import Treatment, Barber, Booking, Availability
 from datetime import date, datetime, timedelta
 from calendar import monthrange
 
@@ -18,9 +18,17 @@ def new_booking_1(request):
     return render(request, template, context)
 
 # https://stackoverflow.com/a/1060330/16735714
+
 def daterange(start_date, end_date):
     for n in range(int((end_date - start_date).days)):
         yield start_date + timedelta(n)
+
+# adapt above view to iterate through 30 minutes delta
+def timerange(start_time, end_time):
+    for n in range(int((end_time - start_time).seconds/1800)):
+        delta = 30 * n
+        yield start_time + timedelta(minutes=delta)
+
 
 def new_booking_2(request, treatment_id):
     """ A view to return the second step of the booking page (select day) """
@@ -63,13 +71,53 @@ def new_booking_2(request, treatment_id):
     }
     return render(request, template, context)
 
+
 def new_booking_3(request, treatment_id, day):
     """ A view to return the third step of the booking page (select barber) """
     treatment = get_object_or_404(Treatment, id=treatment_id)
+    barbers = Barber.objects.all()
 
     template = 'booking/new_booking_3.html'
     context = {
         'treatment': treatment,
         'day': day,
+        'barbers': barbers,
+    }
+    return render(request, template, context)
+
+
+
+def make_availabilities():
+    """ A view to create new slots for the end of the calendar """
+    last_available_day = Availability.objects.all().order_by('-date')[:1][0].date
+    today = date.today()
+    days_curr_month = monthrange(today.year, today.month)[1]
+    one_month_from_now = today + timedelta(days=days_curr_month)
+    barbers = Barber.objects.all()
+
+    if (last_available_day != one_month_from_now):
+        for single_date in daterange(last_available_day, one_month_from_now + timedelta(days=1)):
+            if single_date.weekday() != 5 and single_date.weekday() != 6:
+                for barber in barbers:
+                    start_time = datetime.strptime(str(single_date) + " " + str(barber.start_time), '%Y-%m-%d %H:%M:%S')
+                    end_time = datetime.strptime(str(single_date) + " " + str(barber.end_time), '%Y-%m-%d %H:%M:%S')
+                    for thirty_minutes in timerange(start_time, end_time):
+                        slot = Availability(barber=barber, date=thirty_minutes.date(), time=thirty_minutes.time(), available=True)
+                        slot.save()
+
+
+def new_booking_4(request, treatment_id, day, barber_id):
+    """ A view to return the third step of the booking page (select barber) """
+    treatment = get_object_or_404(Treatment, id=treatment_id)
+    barber = get_object_or_404(Barber, id=barber_id)
+    bookings = Booking.objects.filter(barber=barber.id)
+    make_availabilities()
+    availabilities = Availability.objects.filter(barber=barber, date=day, available=True)
+    template = 'booking/new_booking_4.html'
+    context = {
+        'treatment': treatment,
+        'day': day,
+        'barber': barber,
+        'availabilities': availabilities,
     }
     return render(request, template, context)

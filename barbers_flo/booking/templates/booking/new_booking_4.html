@@ -22,8 +22,10 @@
         </div>
         {{ treatment }}
         {{ day }}
-        {% for barber in barbers %}
-            <div class="barber-name col-3">{{ barber.barber_name }}</div>
+        {% for availability in availabilities %}
+            <div class="availability col-3">{{ availability.barber.barber_name }}</div>
+            <div class="availability col-3">{{ availability.date }}</div>
+            <div class="availability col-3">{{ availability.time }}</div>
             <a href="{% url 'new_booking_4' treatment.id day barber.id %}" class="btn treatment-select col-4 col-md-2">Choose</a>
         {% endfor %}
         <div class="text-right">
