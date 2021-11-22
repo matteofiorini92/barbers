@@ -20,15 +20,8 @@
                 <hr>
             </div>
         </div>
-        {% for day in days %}
-            <div class="row">
-                <div class="treatment-name col-3">{{ day.0|date:"d" }}</div>
-                <div class="treatment-name col-3">{{ day.0|date:"M" }}</div>
-                <div class="treatment-name col-3">{{ day.0|date:"l" }}</div>
-                <div class="treatment-name col-3">{{ day.1 }}</div>
-                <a href="{% url 'new_booking_3' treatment.id day %}" class="btn treatment-select col-4 col-md-2">Choose</a>
-            </div>
-        {% endfor %}
+        {{ treatment }}
+        {{ day }}
         <div class="text-right">
             <a class="btn btn-outline-black rounded-0" href="{% url 'home' %}">Cancel</a>
             <button class="btn btn-black rounded-0" type="submit">Next</button>
