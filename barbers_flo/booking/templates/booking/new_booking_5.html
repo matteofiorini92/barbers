@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
+
 {% block page_header %}
     <div class="container header-container">
         <div class="row">
@@ -20,14 +21,16 @@
                 <hr>
             </div>
         </div>
-        {{ treatment }}
-        {{ day }}
-        {% for availability in availabilities %}
-            <div class="availability col-3">{{ availability.barber.barber_name }}</div>
-            <div class="availability col-3">{{ availability.date }}</div>
-            <div class="availability col-3">{{ availability.time }}</div>
-            <a href="{% url 'new_booking_5' treatment.id day barber.id availability.id %}" class="btn treatment-select col-4 col-md-2">Choose</a>
-        {% endfor %}
+        <form action="{% url 'new_booking_5' treatment.id day barber.id availability.id %}" method="POST">
+            {% csrf_token %}
+            {{ treatment }}
+            {{ availability.barber }}
+            {{ availability.date }}
+            {{ availability.time|time:"G:i" }}
+            {{ treatment.duration }}
+            {{ treatment.price }}
+            <button type="submit">Confirm</button>
+        </form>
         <div class="text-right">
             <a class="btn btn-outline-black rounded-0" href="{% url 'home' %}">Cancel</a>
             <button class="btn btn-black rounded-0" type="submit">Next</button>

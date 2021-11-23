@@ -36,6 +36,7 @@ class BookingAdmin(admin.ModelAdmin):
 
 class AvailabilityAdmin(admin.ModelAdmin):
     list_display = (
+        'id',
         'barber',
         'date',
         'time',
