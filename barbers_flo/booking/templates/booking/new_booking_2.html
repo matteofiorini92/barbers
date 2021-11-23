@@ -12,26 +12,61 @@
 {% block content %}
     <div class="overlay"></div>
     <div class="container">
-        <div class="row">
-            <div class="col-12 col-md-6">
-                <hr>
-                <h2 class="logo-font mb-4">Book Now</h2>
-                <h5 class="text-muted">Make a new reservation</h5>
-                <hr>
-            </div>
-        </div>
+        {% include 'includes/new-booking-header.html' %}
         {% for day in days %}
-            <div class="row">
-                <div class="treatment-name col-3">{{ day.0|date:"d" }}</div>
-                <div class="treatment-name col-3">{{ day.0|date:"M" }}</div>
-                <div class="treatment-name col-3">{{ day.0|date:"l" }}</div>
-                <div class="treatment-name col-3">{{ day.1 }}</div>
-                <a href="{% url 'new_booking_3' treatment.id day.0 %}" class="btn treatment-select col-4 col-md-2">Choose</a>
-            </div>
+            {% if day.0|date:"j" == '1' %}
+                <h4 class="month">{{ day.0|date:"F" }}</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="col-1 day-week">Mon</th>
+                            <th class="col-1 day-week">Tue</th>
+                            <th class="col-1 day-week">Wed</th>
+                            <th class="col-1 day-week">Thu</th>
+                            <th class="col-1 day-week">Fri</th>
+                            <th class="col-1 day-week">Sat</th>
+                            <th class="col-1 day-week">Sun</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <!-- https://stackoverflow.com/a/14389078/16735714 -->
+                        {% with n=day.0|date:"w"|add:"-1" %}
+                            {% with ''|center:n as range %}
+                                {% for _ in range %}
+                                    <td>{{ total }}</td>
+                                {% endfor %}
+                            {% endwith %}
+                        {% endwith %}
+                        <td class="col-1">
+                            <a href="{% url 'new_booking_3' treatment.id day.0 %}" class="btn {% if day.1 == False %}disabled{% endif %}">
+                                {{ day.0|date:"d" }}
+                            </a>
+                        </td>
+            {% elif day.0|date:"w" == '1' %} 
+                <tr>
+                    <td class="col-1">
+                        <a href="{% url 'new_booking_3' treatment.id day.0 %}" class="btn {% if day.1 == False %}disabled{% endif %}">
+                            {{ day.0|date:"d" }}
+                        </a>
+                    </td>
+            {% elif  day.0|date:"w" == '0' %}
+                    <td class="col-1">
+                        <a href="{% url 'new_booking_3' treatment.id day.0 %}" class="btn {% if day.1 == False %}disabled{% endif %}">
+                            {{ day.0|date:"d" }}
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <td>
+                    <a href="{% url 'new_booking_3' treatment.id day.0 %}" class="btn {% if day.1 == False %}disabled{% endif %}">
+                        {{ day.0|date:"d" }}
+                    </a>
+                </td>
+            {% endif %}
+            {% if day.0|date:"j" == day.0|date:"t" %}
+                </table>
+            {% endif %}
         {% endfor %}
-        <div class="text-right">
-            <a class="btn btn-outline-black rounded-0" href="{% url 'home' %}">Cancel</a>
-            <button class="btn btn-black rounded-0" type="submit">Next</button>
-        </div>
+        {% include 'includes/buttons-bottom.html' %}
     </div>
 {% endblock %}

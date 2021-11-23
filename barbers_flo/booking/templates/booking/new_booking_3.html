@@ -12,23 +12,13 @@
 {% block content %}
     <div class="overlay"></div>
     <div class="container">
-        <div class="row">
-            <div class="col-12 col-md-6">
-                <hr>
-                <h2 class="logo-font mb-4">Book Now</h2>
-                <h5 class="text-muted">Make a new reservation</h5>
-                <hr>
-            </div>
-        </div>
+        {% include 'includes/new-booking-header.html' %}
         {{ treatment }}
         {{ day }}
         {% for barber in barbers %}
             <div class="barber-name col-3">{{ barber.barber_name }}</div>
             <a href="{% url 'new_booking_4' treatment.id day barber.id %}" class="btn treatment-select col-4 col-md-2">Choose</a>
         {% endfor %}
-        <div class="text-right">
-            <a class="btn btn-outline-black rounded-0" href="{% url 'home' %}">Cancel</a>
-            <button class="btn btn-black rounded-0" type="submit">Next</button>
-        </div>
+        {% include 'includes/buttons-bottom.html' %}
     </div>
 {% endblock %}
