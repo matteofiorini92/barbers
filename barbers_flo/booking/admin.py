@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Barber, Treatment, Booking, Availability
+from .models import Barber, Availability
 
 # Register your models here.
 
@@ -15,25 +15,6 @@ class BarberAdmin(admin.ModelAdmin):
     ordering = ('barber_name',)
 
 
-class TreatmentAdmin(admin.ModelAdmin):
-    list_display = (
-        'name',
-        'description',
-        'price',
-        'duration',
-    )
-
-
-class BookingAdmin(admin.ModelAdmin):
-    list_display = (
-        'barber',
-        'treatment',
-        'customer_name',
-        'date',
-        'time',
-    )
-
-
 class AvailabilityAdmin(admin.ModelAdmin):
     list_display = (
         'id',
@@ -45,6 +26,4 @@ class AvailabilityAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Barber, BarberAdmin)
-admin.site.register(Treatment, TreatmentAdmin)
-admin.site.register(Booking, BookingAdmin)
 admin.site.register(Availability, AvailabilityAdmin)

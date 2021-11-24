@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404
-from .forms import BookingForm
-from .models import Treatment, Barber, Booking, Availability
+from .models import Barber, Availability
 from datetime import date, datetime, timedelta
 from calendar import monthrange
+from treatments.models import Treatment
 
 # Create your views here.
 

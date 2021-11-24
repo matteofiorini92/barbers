@@ -17,8 +17,8 @@
             {% if not forloop.counter|divisibleby:2 %}
                 <div class="row">    
             {% endif %} 
-                    <div class="card border-dark text-white bg-danger mb-3 mx-3 col-5">
-                        <img src="..." class="card-img-top d-none d-md-block" alt="{{ treatment.name }}">
+                    <div class="card border-dark text-white bg-danger mb-3 mx-3 col-11 col-md-5 px-0">
+                        <img src="{{ MEDIA_URL }}{{ treatment.picture }}" class="card-img-top d-none d-md-block" alt="{{ treatment.name }}">
                         <h5 class="card-title text-center">{{ treatment.name }}</h5>
                         <div class="card-body">
                             <p class="card-text">{{ treatment.description }}</p>
