@@ -13,11 +13,18 @@
     <div class="overlay"></div>
     <div class="container">
         {% include 'includes/new-booking-header.html' %}
-        {{ treatment }}
-        {{ day }}
         {% for barber in barbers %}
-            <div class="barber-name col-3">{{ barber.barber_name }}</div>
-            <a href="{% url 'new_booking_4' treatment.id day barber.id %}" class="btn treatment-select col-4 col-md-2">Choose</a>
+            <div class="row">
+                <div class="col-3">
+                    {% if product.image %}
+                        <img class="card-img-top img-fluid" src="{{ barber.profile_picture }}" alt="{{ barber.barber_name }}">
+                    {% else %}
+                        <img class="card-img-top img-fluid" src="" alt="{{ barber.barber_name }}">
+                    {% endif %}
+                </div>
+                <div class="barber-name col-3">{{ barber.barber_name }}</div>
+                <a href="{% url 'new_booking_4' treatment.id day barber.id %}" class="btn btn-small treatment-select col-4 col-md-2">Choose</a>
+            </div>
         {% endfor %}
         {% include 'includes/buttons-bottom.html' %}
     </div>

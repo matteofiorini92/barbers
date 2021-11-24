@@ -14,12 +14,30 @@
     <div class="container">
         {% include 'includes/new-booking-header.html' %}
         {% for treatment in treatments %}
-            <div class="row">
-                <div class="treatment-name col-12 col-md-6">{{ treatment.name }}</div>
-                <div class="treatment-duration col-4 col-md-2">{{ treatment.duration }}</div>
-                <div class="treatment-price col-4 col-md-2">{{ treatment.price }}</div>
-                <a href="{% url 'new_booking_2' treatment.id %}" class="btn treatment-select col-4 col-md-2">Choose</a>
-            </div>
+            {% if not forloop.counter|divisibleby:2 %}
+                <div class="row">    
+            {% endif %} 
+                    <div class="card border-dark text-white bg-danger mb-3 mx-3 col-5">
+                        <img src="..." class="card-img-top d-none d-md-block" alt="{{ treatment.name }}">
+                        <h5 class="card-title text-center">{{ treatment.name }}</h5>
+                        <div class="card-body">
+                            <p class="card-text">{{ treatment.description }}</p>
+                            <div class="text-center">
+                                <a href="{% url 'new_booking_2' treatment.id %}" class="btn btn-dark">Select</a>
+                            </div>
+                        </div>
+                        <div class="card-footer fs-5 row">
+                            <div class="col-6">
+                                <p class="treatment-duration m-0"><i class="fas fa-stopwatch"></i> {{ treatment.duration }}</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="treatment-price text-end m-0"><i class="fas fa-euro-sign"></i> {{ treatment.price }}</p>
+                            </div>
+                        </div>
+                    </div>
+            {% if forloop.counter|divisibleby:2 %}
+                </div>    
+            {% endif %} 
         {% endfor %}
         {% include 'includes/buttons-bottom.html' %}
     </div>
