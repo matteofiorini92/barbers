@@ -13,7 +13,7 @@ def new_treatment(request):
     else:
         form = TreatmentForm(initial={'price': '0.00', 'duration': 'hh:mm:ss'})
 
-    template = 'treatments/new_treatment.html'
+    template = 'management/new_treatment.html'
     context = {
         'form': form
     }
@@ -35,7 +35,7 @@ def get_treatment(request):
         treatment_id = None
         treatment = None
     treatments = Treatment.objects.all()
-    template = 'treatments/edit_treatment.html'
+    template = 'management/edit_treatment.html'
     context = {
         'form': form,
         'treatments': treatments,
@@ -55,7 +55,7 @@ def edit_treatment(request):
     else:
         form = TreatmentForm()
     treatments = Treatment.objects.all()
-    template = 'treatments/edit_treatment.html'
+    template = 'management/edit_treatment.html'
     context = {
         'form': form,
         'treatments': treatments
