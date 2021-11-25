@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Barber, Availability
+from .models import Availability
 from datetime import date, datetime, timedelta
 from calendar import monthrange
-from management.models import Treatment
+from management.models import Treatment, Barber
 
 # Create your views here.
 
