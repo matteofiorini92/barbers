@@ -6,7 +6,7 @@ from .models import Treatment
 
 def new_treatment(request):
     if request.method == 'POST':
-        form = TreatmentForm(request.POST)
+        form = TreatmentForm(request.POST, request.FILES)
         if form.is_valid():
             treatment = form.save()
             return HttpResponseRedirect('/')
@@ -33,21 +33,22 @@ def get_treatment(request):
     else:
         form = TreatmentForm()
         treatment_id = None
+        treatment = None
     treatments = Treatment.objects.all()
     template = 'treatments/edit_treatment.html'
     context = {
         'form': form,
         'treatments': treatments,
-        'treatment_id': treatment_id
+        'treatment_id': treatment_id,
+        'treatment': treatment
     }
     return render(request, template, context)
 
 
 def edit_treatment(request):
     if request.method == 'POST':
-        print(request.POST)
         treatment = get_object_or_404(Treatment, id=request.POST["id"])
-        form = TreatmentForm(request.POST, instance=treatment)
+        form = TreatmentForm(request.POST, request.FILES, instance=treatment)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/')
@@ -60,3 +61,9 @@ def edit_treatment(request):
         'treatments': treatments
     }
     return render(request, template, context)
+
+
+def delete_treatment(request, treatment_id):
+    treatment = get_object_or_404(Treatment, id=treatment_id)
+    treatment.delete()
+    return HttpResponseRedirect('/')

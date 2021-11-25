@@ -24,15 +24,41 @@
                 </form>
             </div>
         </div>
-        <div class="row">
-            <div class="col-10">
-                <form action="{% url 'edit_treatment' %}" method="POST">
-                    {% csrf_token %}
-                    {{ form|crispy }}
-                    <input type="hidden" id="id" name="id" value="{{ treatment_id }}">
-                    <input type="submit" value="Submit" class="btn btn-danger mt-3">
-                </form>
+        {% if treatment_id %}
+            <div class="row">
+                <div class="col-10">
+                    <form action="{% url 'edit_treatment' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <input type="hidden" id="id" name="id" value="{{ treatment_id }}">
+                        <input type="submit" value="Submit" class="btn btn-danger mt-3">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_modal_{{ treatment_id }}">
+                            Delete
+                        </button>
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="delete_modal_{{ treatment_id }}" tabindex="-1" aria-labelledby="delete_modal_{{ treatment_id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Delete {{ treatment.name }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h4>Are you sure?</h4>
+                                    <p>This action can't be undone!</p>
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <a href="{% url 'delete_treatment' treatment_id %}" class="btn btn-primary">Delete</a>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
+        {% endif %}
     </div>
 {% endblock %}
