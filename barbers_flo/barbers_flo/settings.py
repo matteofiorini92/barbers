@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'home',
     'booking',
     'management',
+    'checkout',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
