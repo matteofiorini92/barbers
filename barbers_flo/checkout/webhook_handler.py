@@ -8,9 +8,9 @@ class StripeWH_Handler:
         self.request = request
 
     def handle_event(self, event):
-    """
-    Handle a generic/unknown/unexpected webhook event
-    """
-    return HttpResponse(
-        content=f'Unhandled webhook received: {event["type"]}',
-        status=200)
+        """
+        Handle a generic/unknown/unexpected webhook event
+        """
+        return HttpResponse(
+            content=f'Unhandled webhook received: {event["type"]}',
+            status=200)
