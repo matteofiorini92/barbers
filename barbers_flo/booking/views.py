@@ -122,21 +122,21 @@ def new_booking_4(request, treatment_id, day, barber_id):
     return render(request, template, context)
 
 
-def new_booking_5(request, treatment_id, day, barber_id, availability_id):
-    """ A view to return the fifth step of the booking page (recap) """
-    treatment = get_object_or_404(Treatment, id=treatment_id)
-    barber = get_object_or_404(Barber, id=barber_id)
-    availability = get_object_or_404(Availability, id=availability_id)
-    if request.method == 'POST':
-        slots = int(treatment.duration.seconds/60/30)
-        for slot in range(1, slots + 1):
-            Availability.objects.filter(id=availability_id).update(available=False)
-            availability_id += 1
-    template = 'booking/new_booking_5.html'
-    context = {
-        'treatment': treatment,
-        'day': day,
-        'barber': barber,
-        'availability': availability,
-    }
-    return render(request, template, context)
+# def new_booking_5(request, treatment_id, day, barber_id, availability_id):
+#     """ A view to return the fifth step of the booking page (recap) """
+#     treatment = get_object_or_404(Treatment, id=treatment_id)
+#     barber = get_object_or_404(Barber, id=barber_id)
+#     availability = get_object_or_404(Availability, id=availability_id)
+#     if request.method == 'POST':
+#         slots = int(treatment.duration.seconds/60/30)
+#         for slot in range(1, slots + 1):
+#             Availability.objects.filter(id=availability_id).update(available=False)
+#             availability_id += 1
+#     template = 'booking/new_booking_5.html'
+#    context = {
+#         'treatment': treatment,
+#         'day': day,
+#         'barber': barber,
+#         'availability': availability,
+#     }
+#     return render(request, template, context)

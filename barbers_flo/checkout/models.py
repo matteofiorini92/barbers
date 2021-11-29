@@ -8,8 +8,11 @@ class Reservation(models.Model):
     user_profile = models.ForeignKey(UserProfile, on_delete=models.SET_NULL,
                                      null=True, blank=True,
                                      related_name='reservation')
-    barber = models.ForeignKey(Barber, on_delete=models.SET_NULL, null=True, blank=True),
+    barber = models.ForeignKey(Barber, on_delete=models.SET_NULL, null=True, blank=True)
     treatment = models.ForeignKey(Treatment, on_delete=models.SET_NULL, null=True, blank=True)
+    date = models.DateField(null=False, blank=False)
+    time = models.TimeField(null=False, blank=False)
+    duration = models.DurationField(null=False, blank=False)
     full_name = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(max_length=254, null=False, blank=False)
     phone_number = models.CharField(max_length=20, null=False, blank=False)

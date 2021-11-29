@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+<!-- {% extends "base.html" %}
 {% load static %}
 
 
@@ -14,7 +14,7 @@
     <div class="overlay"></div>
     <div class="container">
         {% include 'includes/new-booking-header.html' %}
-        <form action="{% url 'new_booking_5' treatment.id day barber.id availability.id %}" method="POST">
+        <form action="{% url 'checkout' treatment.id day barber.id availability.id %}" method="POST">
             {% csrf_token %}
             {{ treatment }}
             {{ availability.barber }}
@@ -26,4 +26,4 @@
         </form>
         {% include 'includes/buttons-bottom.html' %}
     </div>
-{% endblock %}
+{% endblock %} -->
