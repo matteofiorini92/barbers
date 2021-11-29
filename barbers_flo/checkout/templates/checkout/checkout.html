@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col-10">Checkout</div>
         </div>
-        <form  class="col-8" action="{% url 'checkout' treatment.id day barber.id availability.id %}" method="POST" id="payment-form">
+        <form  class="col-8" action="{% url 'checkout' treatment.id barber.id availability.id %}" method="POST" id="payment-form">
             {% csrf_token %}
             {{ form|crispy }}
             <fieldset class="px-3">

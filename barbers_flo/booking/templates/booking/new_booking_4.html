@@ -19,7 +19,7 @@
             <div class="availability col-3">{{ availability.barber.barber_name }}</div>
             <div class="availability col-3">{{ availability.date }}</div>
             <div class="availability col-3">{{ availability.time }}</div>
-            <a href="{% url 'checkout' treatment.id day barber.id availability.id %}" class="btn treatment-select col-4 col-md-2">Choose</a>
+            <a href="{% url 'checkout' treatment.id barber.id availability.id %}" class="btn treatment-select col-4 col-md-2">Choose</a>
         {% endfor %}
         {% include 'includes/buttons-bottom.html' %}
     </div>

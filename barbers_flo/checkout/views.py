@@ -9,11 +9,11 @@ import stripe
 # Create your views here.
 
 
-def checkout(request, treatment_id, day, barber_id, availability_id):
+def checkout(request, treatment_id, barber_id, availability_id):
     treatment = get_object_or_404(Treatment, id=treatment_id)
     barber = get_object_or_404(Barber, id=barber_id)
     availability = get_object_or_404(Availability, id=availability_id)
-    form = ReservationForm(initial={'treatment': treatment, 'barber': barber, 'date': day, 'time': availability.time, 'duration': treatment.duration, 'order_total': treatment.price})
+    form = ReservationForm(initial={'treatment': treatment, 'barber': barber, 'date': availability.date, 'time': availability.time, 'duration': treatment.duration, 'order_total': treatment.price})
     # https://stackoverflow.com/questions/50934156/how-to-disable-a-field-in-crispy-form-django
     form.fields['treatment'].disabled = True
     form.fields['barber'].disabled = True
