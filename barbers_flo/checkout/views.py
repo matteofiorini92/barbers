@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpResponse
 from django.conf import settings
+from django.views.decorators.http import require_POST
 # from django.contrib import messages
 from booking.models import Availability
 from management.models import Treatment, Barber
@@ -10,6 +11,15 @@ from .models import Reservation
 import stripe
 
 # Create your views here.
+
+@require_POST
+def cache_checkout_data(request):
+    pid = request.POST.get('client_secret').split('_secret')[0]
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    stripe.PaymentIntent.modify(pid, metadata={
+        'username': request.user,
+    })
+    return HttpResponse(status=200)
 
 
 def checkout(request, treatment_id, barber_id, availability_id):
