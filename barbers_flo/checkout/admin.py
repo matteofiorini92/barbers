@@ -9,8 +9,8 @@ class ReservationAdmin(admin.ModelAdmin):
         'barber',
         'treatment',
         'order_total',
-        'stripe_pid'
-)
+        'stripe_pid',
+    )
 
 
 admin.site.register(Reservation, ReservationAdmin)

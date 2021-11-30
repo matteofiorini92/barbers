@@ -10,12 +10,12 @@ class Reservation(models.Model):
                                      related_name='reservation')
     barber = models.ForeignKey(Barber, on_delete=models.SET_NULL, null=True, blank=True)
     treatment = models.ForeignKey(Treatment, on_delete=models.SET_NULL, null=True, blank=True)
-    date = models.DateField(null=False, blank=False)
-    time = models.TimeField(null=False, blank=False)
-    duration = models.DurationField(null=False, blank=False)
-    full_name = models.CharField(max_length=50, null=False, blank=False)
-    email = models.EmailField(max_length=254, null=False, blank=False)
-    phone_number = models.CharField(max_length=20, null=False, blank=False)
+    date = models.DateField(null=True)
+    time = models.TimeField(null=True)
+    duration = models.DurationField(null=False, blank=False, default=None)
+    full_name = models.CharField(max_length=50, null=False, blank=False, default=None)
+    email = models.EmailField(max_length=254, null=False, blank=False, default=None)
+    phone_number = models.CharField(max_length=20, null=False, blank=False, default=None)
     order_total = models.DecimalField(max_digits=10, decimal_places=2,
                                       null=False, default=0)
     stripe_pid = models.CharField(max_length=254, null=False, blank=False,
