@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.conf import settings
+# from django.contrib import messages
 from booking.models import Availability
 from management.models import Treatment, Barber
 from .forms import ReservationForm
+from .models import Reservation
+
 
 import stripe
 
@@ -12,7 +15,6 @@ import stripe
 def checkout(request, treatment_id, barber_id, availability_id):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
-
     treatment = get_object_or_404(Treatment, id=treatment_id)
     barber = get_object_or_404(Barber, id=barber_id)
     availability = get_object_or_404(Availability, id=availability_id)
@@ -26,8 +28,6 @@ def checkout(request, treatment_id, barber_id, availability_id):
     form.fields['order_total'].disabled = True
 
     if request.method == 'POST':
-        print(request)
-        print(request.user)
         form_data = {
             'treatment': treatment_id,
             'barber': barber_id,
@@ -48,7 +48,9 @@ def checkout(request, treatment_id, barber_id, availability_id):
             # reservation.user_profile = request.user
             # order.original_bag = json.dumps(bag)
             reservation.save()
-            return redirect(reverse('/'))
+            return redirect('checkout_success', reservation.id)
+        # else:
+            # messages.error(request, ("Error message here."))
     else:
         total = treatment.price
         stripe_total = round(total * 100)
@@ -74,4 +76,14 @@ def checkout(request, treatment_id, barber_id, availability_id):
         'form': form
     }
 
+    return render(request, template, context)
+
+
+def checkout_success(request, reservation_id):
+    reservation = get_object_or_404(Reservation, id=reservation_id)
+    # messages.success(request, f'Reservation confirmed! Your reservation number is { reservation_id }')
+    template = 'checkout/checkout-success.html'
+    context = {
+        'reservation': reservation
+    }
     return render(request, template, context)
