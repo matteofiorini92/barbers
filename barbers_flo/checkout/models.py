@@ -12,7 +12,6 @@ class Reservation(models.Model):
     treatment = models.ForeignKey(Treatment, on_delete=models.SET_NULL, null=True, blank=True)
     date = models.DateField(null=True)
     time = models.TimeField(null=True)
-    duration = models.DurationField(null=False, blank=False, default=None)
     full_name = models.CharField(max_length=50, null=False, blank=False, default=None)
     email = models.EmailField(max_length=254, null=False, blank=False, default=None)
     phone_number = models.CharField(max_length=20, null=False, blank=False, default=None)

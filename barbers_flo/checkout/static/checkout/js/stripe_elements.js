@@ -52,10 +52,22 @@ form.addEventListener('submit', function(ev) {
     $('#payment-form').fadeToggle(100);
     $('#loading-overlay').fadeToggle(100);
     var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+    var treatment = $('select[name="treatment"]').val();
+    var barber = $('select[name="barber"]').val();
+    var date = $('input[name="date"]').val();
+    var time = $('input[name="time"]').val();
+    var availability_id = $('input[name="availability_id"]').val();
+    console.log(availability_id)
     var postData = {
         'csrfmiddlewaretoken': csrfToken,
-        'client_secret': clientSecret
+        'client_secret': clientSecret,
+        'treatment': treatment,
+        'barber': barber,
+        'date': date,
+        'time': time,
+        'availability_id': availability_id
     };
+
     var url = '/checkout/cache_checkout_data/';
     $.post(url, postData).done(function() {
         stripe.confirmCardPayment(clientSecret, {

@@ -31,6 +31,8 @@
                 <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
                 <!-- Pass the client secret to the view so we can get the payment intent id -->
                 <input type="hidden" value="{{ client_secret }}" name="client_secret">
+                <!-- Pass the availability id to the view so we can pass it to Stripe to create the reservation via webhook -->
+                <input type="hidden" value="{{ availability.id }}" name="availability_id">
             </fieldset>
             <button type="submit" id="submit-button">Checkout</button>
         </form>
