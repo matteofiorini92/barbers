@@ -1,11 +1,9 @@
-# https://stackoverflow.com/a/60860893/16735714
 from django import template
 
 
 register = template.Library()
 
-
-@register.filter
+@register.filter(name='duration')
 def duration(td):
 
     total_seconds = int(td.total_seconds())
