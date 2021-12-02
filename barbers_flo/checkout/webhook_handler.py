@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from .models import Reservation
 from booking.models import Availability
 from management.models import Barber, Treatment
+from profiles.models import UserProfile
 
 from datetime import datetime
 import time
@@ -33,6 +34,7 @@ class StripeWH_Handler:
         treatment = get_object_or_404(Treatment, id=intent.charges.data[0].metadata.treatment)
         barber = get_object_or_404(Barber, id=intent.charges.data[0].metadata.barber)
         date = datetime.strptime(intent.charges.data[0].metadata.date, '%Y-%m-%d')
+        user = get_object_or_404(UserProfile, user=intent.charges.data[0].metadata.username)
         # calling variable time_of_reservation to not clash with time imported on top
         time_of_reservation = datetime.strptime(intent.charges.data[0].metadata.time, '%H:%M:%S')
         availability_id = int(intent.charges.data[0].metadata.availability_id)
@@ -40,7 +42,6 @@ class StripeWH_Handler:
         attempt = 1
         while attempt <= 5:
             try:
-                print(attempt)
                 reservation = Reservation.objects.get(
                     full_name__iexact=billing_details.name,
                     email__iexact=billing_details.email,

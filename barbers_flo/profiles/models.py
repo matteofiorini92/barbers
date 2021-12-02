@@ -6,15 +6,17 @@ from django.dispatch import receiver
 
 class UserProfile(models.Model):
     """
-    A user profile model for maintaining order history
+    A user profile model for maintaining reservation history
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     default_phone_number = models.CharField(max_length=20, null=True, blank=True)
+
 
     def __str__(self):
         return self.user.username
 
 
+# receiver to create or update a user every time a user object is saved
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     """

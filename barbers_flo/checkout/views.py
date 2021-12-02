@@ -4,6 +4,7 @@ from django.views.decorators.http import require_POST
 # from django.contrib import messages
 from booking.models import Availability
 from management.models import Treatment, Barber
+from profiles.models import UserProfile
 from .forms import ReservationForm
 from .models import Reservation
 
@@ -41,7 +42,15 @@ def checkout(request, treatment_id, barber_id, availability_id):
     treatment = get_object_or_404(Treatment, id=treatment_id)
     barber = get_object_or_404(Barber, id=barber_id)
     availability = get_object_or_404(Availability, id=availability_id)
-    form = ReservationForm(initial={'treatment': treatment, 'barber': barber, 'date': availability.date, 'time': availability.time, 'order_total': treatment.price})
+    user = get_object_or_404(UserProfile, user=request.user)
+    form = ReservationForm(initial={
+        'treatment': treatment,
+        'barber': barber,
+        'date': availability.date,
+        'time': availability.time,
+        'order_total': treatment.price,
+        'phone_number': user.default_phone_number    
+    })
     # https://stackoverflow.com/questions/50934156/how-to-disable-a-field-in-crispy-form-django
     form.fields['treatment'].disabled = True
     form.fields['barber'].disabled = True
@@ -66,7 +75,7 @@ def checkout(request, treatment_id, barber_id, availability_id):
             reservation = reservation_form.save(commit=False)
             pid = request.POST.get('client_secret').split('_secret')[0]
             reservation.stripe_pid = pid
-            # reservation.user_profile = request.user
+            reservation.user_profile = user
             reservation.save()
             # make slots unavailable
             slots = int(treatment.duration.seconds/60/30)
