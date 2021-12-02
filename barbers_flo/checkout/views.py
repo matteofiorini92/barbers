@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpResponse
 from django.conf import settings
+from django.contrib import messages
 from django.views.decorators.http import require_POST
 # from django.contrib import messages
 from booking.models import Availability
@@ -83,8 +84,8 @@ def checkout(request, treatment_id, barber_id, availability_id):
                 Availability.objects.filter(id=availability_id).update(available=False)
                 availability_id += 1
             return redirect('checkout_success', reservation.id)
-        # else:
-            # messages.error(request, ("Error message here."))
+        else:
+            messages.error(request, ("Error message here."))
     else:
         total = treatment.price
         stripe_total = round(total * 100)

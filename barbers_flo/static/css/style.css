@@ -53,3 +53,10 @@ body {
 .modal-content {
     background-color: rgb(61, 61, 61) !important;
 }
+
+.message-container {
+    position: fixed;
+    top: 72px;
+    right: 15px;
+    z-index: 999999;
+}
