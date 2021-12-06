@@ -10,7 +10,7 @@ from management.models import Treatment, Barber
 def new_booking_1(request):
     """ A view to return the first step of the booking page (select treatment) """
     treatments = Treatment.objects.all()
-
+    print(treatments[0].picture.url)
     template = 'booking/new_booking_1.html'
     context = {
         'treatments': treatments,
@@ -76,7 +76,7 @@ def new_booking_3(request, treatment_id, day):
     """ A view to return the third step of the booking page (select barber) """
     treatment = get_object_or_404(Treatment, id=treatment_id)
     barbers = Barber.objects.all()
-
+    print(barbers[0].profile_picture.url)
     template = 'booking/new_booking_3.html'
     context = {
         'treatment': treatment,

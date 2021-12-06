@@ -15,12 +15,20 @@
         {% include 'includes/new-booking-header.html' %}
         {{ treatment }}
         {{ day }}
+        {{ barber.barber_name }}
+        {{ availability.date }}
+        <div class="row">
         {% for availability in availabilities %}
-            <div class="availability col-3">{{ availability.barber.barber_name }}</div>
-            <div class="availability col-3">{{ availability.date }}</div>
-            <div class="availability col-3">{{ availability.time }}</div>
-            <a href="{% url 'checkout' treatment.id barber.id availability.id %}" class="btn treatment-select col-4 col-md-2">Choose</a>
+            {% if forloop.counter == 1 or forloop.counter|add:-1|divisibleby:6 %}
+                <div class="col-3">
+            {% endif %} 
+                    <a href="{% url 'checkout' treatment.id barber.id availability.id %}"
+                                class="btn btn-dark mt-1 time-button">{{ availability.time|time:'H:i' }}</a>
+            {% if forloop.counter|divisibleby:6 %}
+                </div> 
+            {% endif %} 
         {% endfor %}
+        </div>   
         {% include 'includes/buttons-bottom.html' %}
     </div>
 {% endblock %}

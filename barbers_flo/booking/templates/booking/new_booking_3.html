@@ -14,17 +14,24 @@
     <div class="container">
         {% include 'includes/new-booking-header.html' %}
         {% for barber in barbers %}
-            <div class="row">
-                <div class="col-3">
-                    {% if product.image %}
-                        <img class="card-img-top img-fluid" src="{{ barber.profile_picture }}" alt="{{ barber.barber_name }}">
-                    {% else %}
-                        <img class="card-img-top img-fluid" src="" alt="{{ barber.barber_name }}">
-                    {% endif %}
-                </div>
-                <div class="barber-name col-3">{{ barber.barber_name }}</div>
-                <a href="{% url 'new_booking_4' treatment.id day barber.id %}" class="btn btn-small treatment-select col-4 col-md-2">Choose</a>
-            </div>
+            {% if not forloop.counter|divisibleby:2 %}
+                <div class="row">    
+            {% endif %} 
+                    <div class="card border-dark text-white bg-danger mb-3 mx-3 col-11 col-md-5 px-0">
+                        {% if barber.profile_picture %}
+                            <img src="{{ barber.profile_picture.url }}" class="card-img-top d-none d-md-block" alt="{{ barber.name }}">
+                        {% else %}
+                        <img src="{{ MEDIA_URL }}no-image-icon.png" class="card-img-top d-none d-md-block" alt="{{ barber.name }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <div class="text-center">
+                                <a href="{% url 'new_booking_4' treatment.id day barber.id %}" class="btn btn-dark">{{ barber.barber_name }}</a>
+                            </div>
+                        </div>
+                    </div>
+            {% if forloop.counter|divisibleby:2 %}
+                </div>    
+            {% endif %} 
         {% endfor %}
         {% include 'includes/buttons-bottom.html' %}
     </div>

@@ -5,6 +5,10 @@ body {
 
 .nav-block {
     height: 50px;
+} 
+
+.time-button {
+    width: 100%;
 }
 
 .overlay {
@@ -59,4 +63,8 @@ body {
     top: 72px;
     right: 15px;
     z-index: 999999;
+}
+
+.link-disabled {
+    pointer-events: none;
 }
