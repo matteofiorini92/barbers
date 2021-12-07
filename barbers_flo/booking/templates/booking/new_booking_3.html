@@ -4,7 +4,12 @@
 {% block page_header %}
     <div class="container header-container">
         <div class="row">
-            <div class="col"></div>
+            <div class="col">
+                <hr>
+                <h2 class="mb-4">Make a new reservation</h2>
+                <h5>Choose your barber</h5>
+                <hr>
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -12,7 +17,6 @@
 {% block content %}
     <div class="overlay"></div>
     <div class="container">
-        {% include 'includes/new-booking-header.html' %}
         {% for barber in barbers %}
             {% if not forloop.counter|divisibleby:2 %}
                 <div class="row">    
@@ -21,7 +25,7 @@
                         {% if barber.profile_picture %}
                             <img src="{{ barber.profile_picture.url }}" class="card-img-top d-none d-md-block" alt="{{ barber.name }}">
                         {% else %}
-                        <img src="{{ MEDIA_URL }}no-image-icon.png" class="card-img-top d-none d-md-block" alt="{{ barber.name }}">
+                            <img src="{{ MEDIA_URL }}no-image-icon.png" class="card-img-top d-none d-md-block" alt="{{ barber.name }}">
                         {% endif %}
                         <div class="card-body">
                             <div class="text-center">
@@ -33,6 +37,5 @@
                 </div>    
             {% endif %} 
         {% endfor %}
-        {% include 'includes/buttons-bottom.html' %}
     </div>
 {% endblock %}

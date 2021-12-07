@@ -4,7 +4,12 @@
 {% block page_header %}
     <div class="container header-container">
         <div class="row">
-            <div class="col"></div>
+            <div class="col">
+                <hr>
+                <h2 class="mb-4">Make a new reservation</h2>
+                <h5>Choose the date</h5>
+                <hr>
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -12,74 +17,76 @@
 {% block content %}
     <div class="overlay"></div>
     <div class="container">
-        {% include 'includes/new-booking-header.html' %}
-        {% for day in days %}
-            {% if day.0|date:"j" == '1' %}
-                <div class="month">
-                    <h4 class="my-3">{{ day.0|date:"F" }} {{ day.0|date:"Y" }}</h4>
-                    <div class="row">
-                        <div class="col-12 mx-5">
-                            <table>
-                                <thead>
+        <div class="row">
+            <div class="col-12 col-md-8">
+                {% for day in days %}
+                    {% if day.0|date:"j" == '1' %}
+                        <div class="month">
+                            <h4 class="my-3">{{ day.0|date:"F" }} {{ day.0|date:"Y" }}</h4>
+                            <div class="row">
+                                <div class="col-12 mx-5">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th class="col-1 day-week">Mon</th>
+                                                <th class="col-1 day-week">Tue</th>
+                                                <th class="col-1 day-week">Wed</th>
+                                                <th class="col-1 day-week">Thu</th>
+                                                <th class="col-1 day-week">Fri</th>
+                                                <th class="col-1 day-week">Sat</th>
+                                                <th class="col-1 day-week">Sun</th>
+                                            </tr>
+                                        </thead>
+                                        <tr>
+                                            <!-- https://stackoverflow.com/a/14389078/16735714 -->
+                                            {% with n=day.0|date:"w"|add:"-1" %}
+                                                {% with ''|center:n as range %}
+                                                    {% for _ in range %}
+                                                        <td>{{ total }}</td>
+                                                    {% endfor %}
+                                                {% endwith %}
+                                            {% endwith %}
+                                            <td class="col-1">
+                                                <a href="{% url 'new_booking_3' treatment.id day.0 %}" class="btn {% if day.1 == False %}disabled{% endif %}">
+                                                    {{ day.0|date:"j" }}
+                                                </a>
+                                            </td>
+                                {% elif day.0|date:"w" == '1' %} 
                                     <tr>
-                                        <th class="col-1 day-week">Mon</th>
-                                        <th class="col-1 day-week">Tue</th>
-                                        <th class="col-1 day-week">Wed</th>
-                                        <th class="col-1 day-week">Thu</th>
-                                        <th class="col-1 day-week">Fri</th>
-                                        <th class="col-1 day-week">Sat</th>
-                                        <th class="col-1 day-week">Sun</th>
+                                        <td class="col-1">
+                                            <a href="{% url 'new_booking_3' treatment.id day.0 %}" class="btn {% if day.1 == False %}disabled{% endif %}">
+                                                {{ day.0|date:"j" }}
+                                            </a>
+                                        </td>
+                                {% elif  day.0|date:"w" == '0' %}
+                                        <td class="col-1">
+                                            <a href="{% url 'new_booking_3' treatment.id day.0 %}" class="btn {% if day.1 == False %}disabled{% endif %}">
+                                                {{ day.0|date:"j" }}
+                                            </a>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tr>
-                                    <!-- https://stackoverflow.com/a/14389078/16735714 -->
-                                    {% with n=day.0|date:"w"|add:"-1" %}
-                                        {% with ''|center:n as range %}
-                                            {% for _ in range %}
-                                                <td>{{ total }}</td>
-                                            {% endfor %}
-                                        {% endwith %}
-                                    {% endwith %}
-                                    <td class="col-1">
+                                {% else %}
+                                    <td>
                                         <a href="{% url 'new_booking_3' treatment.id day.0 %}" class="btn {% if day.1 == False %}disabled{% endif %}">
-                                            {{ day.0|date:"d" }}
+                                            {{ day.0|date:"j" }}
                                         </a>
                                     </td>
-                        {% elif day.0|date:"w" == '1' %} 
-                            <tr>
-                                <td class="col-1">
-                                    <a href="{% url 'new_booking_3' treatment.id day.0 %}" class="btn {% if day.1 == False %}disabled{% endif %}">
-                                        {{ day.0|date:"d" }}
-                                    </a>
-                                </td>
-                        {% elif  day.0|date:"w" == '0' %}
-                                <td class="col-1">
-                                    <a href="{% url 'new_booking_3' treatment.id day.0 %}" class="btn {% if day.1 == False %}disabled{% endif %}">
-                                        {{ day.0|date:"d" }}
-                                    </a>
-                                </td>
-                            </tr>
-                        {% else %}
-                            <td>
-                                <a href="{% url 'new_booking_3' treatment.id day.0 %}" class="btn {% if day.1 == False %}disabled{% endif %}">
-                                    {{ day.0|date:"d" }}
-                                </a>
-                            </td>
-                        {% endif %}
-                        {% if day.0|date:"j" == day.0|date:"t" %}
-                            </table>
+                                {% endif %}
+                                {% if day.0|date:"j" == day.0|date:"t" %}
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            {% endif %}
-        {% endfor %}
-        <div class="navigation-container">
-			<strong>
-				<a href="#" class="previous round" id="prev">&#8249;</a>
-				<a href="#" class="next round" id="next">&#8250;</a>
-			</strong>
-		</div>
-        {% include 'includes/buttons-bottom.html' %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col-12 col-md-2 py-5 text-center">
+                <strong>
+                    <a href="#" class="round link-disabled" id="prev"><i class="fas fa-chevron-circle-left fa-3x"></i></a>
+                    <a href="#" class="round" id="next"><i class="fas fa-chevron-circle-right fa-3x"></i></a>
+                </strong>
+            </div>
+        </div>
     </div>
 {% endblock %}
 

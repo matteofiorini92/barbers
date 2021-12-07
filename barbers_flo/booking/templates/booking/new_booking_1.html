@@ -5,7 +5,12 @@
 {% block page_header %}
     <div class="container header-container">
         <div class="row">
-            <div class="col"></div>
+            <div class="col">
+                <hr>
+                <h2 class="mb-4">Make a new reservation</h2>
+                <h5>Choose your treatment</h5>
+                <hr>
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -13,7 +18,6 @@
 {% block content %}
     <div class="overlay"></div>
     <div class="container">
-        {% include 'includes/new-booking-header.html' %}
         {% for treatment in treatments %}
             {% if not forloop.counter|divisibleby:2 %}
                 <div class="row">    
@@ -44,6 +48,5 @@
                 </div>    
             {% endif %} 
         {% endfor %}
-        {% include 'includes/buttons-bottom.html' %}
     </div>
 {% endblock %}

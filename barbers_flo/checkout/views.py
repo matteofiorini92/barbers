@@ -78,6 +78,7 @@ def checkout(request, treatment_id, barber_id, availability_id):
             reservation.stripe_pid = pid
             reservation.user_profile = user
             reservation.save()
+            messages.success(request, ("Success message here."))
             # make slots unavailable
             slots = int(treatment.duration.seconds/60/30)
             for slot in range(1, slots + 1):
@@ -112,7 +113,7 @@ def checkout(request, treatment_id, barber_id, availability_id):
 
 def checkout_success(request, reservation_id):
     reservation = get_object_or_404(Reservation, id=reservation_id)
-    # messages.success(request, f'Reservation confirmed! Your reservation number is { reservation_id }')
+    messages.success(request, f'Reservation confirmed! Your reservation number is { reservation_id }')
     template = 'checkout/checkout-success.html'
     context = {
         'reservation': reservation

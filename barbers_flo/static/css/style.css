@@ -65,6 +65,24 @@ body {
     z-index: 999999;
 }
 
+#prev, #next {
+    text-decoration: none;
+    display: inline-block;
+}
+
+#prev:hover, #next:hover {
+    color: #dc3545;
+}
+
+#prev, #next {
+    color: #212529;
+  }
+
+.round {
+    border-radius: 50%;
+  }
+
 .link-disabled {
+    opacity: 0%;
     pointer-events: none;
 }

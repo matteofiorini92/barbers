@@ -7,22 +7,43 @@
 {% endblock %}
 
 {% block page_header %}
-    <div class="container header-container">
-        <div class="row">
-            <div class="col">Checkout</div>
+<div class="container header-container">
+    <div class="row">
+        <div class="col">
+            <hr>
+            <h2 class="mb-4">Make a new reservation</h2>
+            <h5>Confirm your details</h5>
+            <hr>
         </div>
     </div>
+</div>
 {% endblock %}
 
 {% block content %}
     <div class="overlay"></div>
     <div class="container">
-        <div class="row">
-            <div class="col-10">Checkout</div>
-        </div>
-        <form  class="col-8" action="{% url 'checkout' treatment.id barber.id availability.id %}" method="POST" id="payment-form">
+        <form action="{% url 'checkout' treatment.id barber.id availability.id %}" method="POST" id="payment-form">
             {% csrf_token %}
-            {{ form|crispy }}
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <fieldset class="rounded px-3 mb-5">
+                        <legend class="fieldset-label small text-black px-2 w-auto">Booking Details</legend>
+                        {{ form.treatment | as_crispy_field }}
+                        {{ form.barber | as_crispy_field }}
+                        {{ form.date | as_crispy_field }}
+                        {{ form.time | as_crispy_field }}
+                        {{ form.order_total | as_crispy_field }}
+                    </fieldset>
+                </div>
+                <div class="col-12 col-md-6">
+                <fieldset class="rounded px-3 mb-5">
+                        <legend class="fieldset-label small text-black px-2 w-auto">Your Details</legend>
+                        {{ form.full_name | as_crispy_field }}
+                        {{ form.email | as_crispy_field }}
+                        {{ form.phone_number | as_crispy_field }}
+                    </fieldset>
+                </div>
+            </div>
             <fieldset class="px-3">
                 <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
                 <!-- A Stripe card element will go here -->
@@ -34,7 +55,9 @@
                 <!-- Pass the availability id to the view so we can pass it to Stripe to create the reservation via webhook -->
                 <input type="hidden" value="{{ availability.id }}" name="availability_id">
             </fieldset>
-            <button type="submit" id="submit-button">Checkout</button>
+            <div class="text-end">
+                <button type="submit" class="btn btn-danger my-3" id="submit-button">Checkout</button>
+            </div>
         </form>
     </div>
     <div id="loading-overlay">

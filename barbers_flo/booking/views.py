@@ -106,10 +106,21 @@ def make_availabilities():
                         slot.save()
 
 
+def clean_up_availabilities():
+    """ A view to delete availability for past dates """
+    oldest_available_date = Availability.objects.all().order_by('date')[:1][0].date
+    today = date.today()
+    if oldest_available_date < today:
+        availabilities = Availability.objects.all().order_by('date')
+        for availability in availabilities:
+            if availability.date < today:
+                availability.delete()
+
 def new_booking_4(request, treatment_id, day, barber_id):
     """ A view to return the third fourth of the booking page (select time) """
     treatment = get_object_or_404(Treatment, id=treatment_id)
     barber = get_object_or_404(Barber, id=barber_id)
+    clean_up_availabilities()
     make_availabilities()
     availabilities = Availability.objects.filter(barber=barber, date=day, available=True)
     template = 'booking/new_booking_4.html'
