@@ -1,0 +1,1 @@
+web: gunicorn barbers_flo.wsgi:application
