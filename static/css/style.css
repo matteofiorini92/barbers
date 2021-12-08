@@ -1,53 +1,37 @@
 body {
     color: white;
-    background-color: gray;
+    background-color: #6c757d;
+}
+
+.nav-container {
+    height: 6vh;
 }
 
 .nav-block {
-    height: 50px;
-} 
+    height: 6vh;
+}
 
 .time-button {
     width: 100%;
 }
 
-.overlay {
+/* .overlay {
 	height: 100%;
 	width: 100%;
 	top: 0;
 	left: 0;
 	position: fixed;
-	z-index: 1;
-    display: none;
+	z-index: 2;
+    background-color: rgba(88, 21, 28, 0.9)
+} */
+
+.background-image {
+    height: 94vh;
+    background-image: url(/media/slideshow-1.jpg);
+    background-size: cover;
+    background-position: bottom;
 }
 
-.carousel-indicators {
-    z-index: 2;
-}
-
-.carousel-small-image {
-    text-align: center;
-}
-
-.small-image {
-    height: 150px;
-    object-fit: contain;
-}
-
-.carousel-item > img {
-    height: 100vh;
-    object-fit: cover;
-}
-
-.carousel-content {
-    position: fixed;
-    top: 20%;
-    left: 10%;
-    z-index: 3;
-    background-color: rgba(100, 0, 0, 0.8);
-    height: 60%;
-    width: 80%;
-}
 
 .month {
     margin-bottom: 20px;

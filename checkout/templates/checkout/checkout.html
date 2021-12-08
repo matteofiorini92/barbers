@@ -20,7 +20,6 @@
 {% endblock %}
 
 {% block content %}
-    <div class="overlay"></div>
     <div class="container">
         <form action="{% url 'checkout' treatment.id barber.id availability.id %}" method="POST" id="payment-form">
             {% csrf_token %}
