@@ -43,18 +43,28 @@ def checkout(request, treatment_id, barber_id, availability_id):
     treatment = get_object_or_404(Treatment, id=treatment_id)
     barber = get_object_or_404(Barber, id=barber_id)
     availability = get_object_or_404(Availability, id=availability_id)
-    profile = get_object_or_404(UserProfile, user=request.user)
-    user = get_object_or_404(User, username=request.user)
-    form = ReservationForm(initial={
-        'treatment': treatment,
-        'barber': barber,
-        'date': availability.date,
-        'time': availability.time,
-        'order_total': treatment.price,
-        'email': user.email,
-        'full_name': user.first_name + ' ' + user.last_name,
-        'phone_number': profile.default_phone_number
-    })
+    if request.user.is_authenticated:
+        profile = get_object_or_404(UserProfile, user=request.user)
+        user = get_object_or_404(User, username=request.user)
+        form = ReservationForm(initial={
+            'treatment': treatment,
+            'barber': barber,
+            'date': availability.date,
+            'time': availability.time,
+            'order_total': treatment.price,
+            'email': user.email,
+            'full_name': user.first_name + ' ' + user.last_name,
+            'phone_number': profile.default_phone_number
+        })
+    else:
+        form = ReservationForm(initial={
+            'treatment': treatment,
+            'barber': barber,
+            'date': availability.date,
+            'time': availability.time,
+            'order_total': treatment.price,
+        })
+
     # https://stackoverflow.com/questions/50934156/how-to-disable-a-field-in-crispy-form-django
     form.fields['treatment'].disabled = True
     form.fields['barber'].disabled = True
@@ -79,7 +89,10 @@ def checkout(request, treatment_id, barber_id, availability_id):
             reservation = reservation_form.save(commit=False)
             pid = request.POST.get('client_secret').split('_secret')[0]
             reservation.stripe_pid = pid
-            reservation.user_profile = user
+            if request.user.is_authenticated:
+                reservation.user_profile = user
+            else:
+                reservation.user_profile = None
             reservation.save()
             messages.success(request, ("Success message here."))
             # make slots unavailable
