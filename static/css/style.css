@@ -3,30 +3,20 @@ body {
     background-color: #6c757d;
 }
 
-.nav-container {
-    height: 6vh;
+.navbar {
+    height: 8vh;
 }
 
 .nav-block {
-    height: 6vh;
+    height: 8vh;
 }
 
 .time-button {
     width: 100%;
 }
 
-/* .overlay {
-	height: 100%;
-	width: 100%;
-	top: 0;
-	left: 0;
-	position: fixed;
-	z-index: 2;
-    background-color: rgba(88, 21, 28, 0.9)
-} */
-
 .background-image {
-    height: 94vh;
+    height: 92vh;
     background-image: url(/media/slideshow-1.jpg);
     background-size: cover;
     background-position: bottom;
@@ -69,4 +59,11 @@ body {
 .link-disabled {
     opacity: 0%;
     pointer-events: none;
+}
+
+.navbar-brand{
+    position: fixed;
+    left: 50%;
+    /*  https://stackoverflow.com/a/25919090/16735714 */
+    transform: translate(-50%, 0);
 }

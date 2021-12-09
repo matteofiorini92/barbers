@@ -24,10 +24,10 @@ def daterange(start_date, end_date):
         yield start_date + timedelta(n)
 
 # adapt above view to iterate through 30 minutes delta
-def timerange(start_time, end_time):
-    for n in range(int((end_time - start_time).seconds/1800)):
-        delta = 30 * n
-        yield start_time + timedelta(minutes=delta)
+#def timerange(start_time, end_time):
+#    for n in range(int((end_time - start_time).seconds/1800)):
+#       delta = 30 * n
+#        yield start_time + timedelta(minutes=delta)
 
 
 def new_booking_2(request, treatment_id):
@@ -87,42 +87,47 @@ def new_booking_3(request, treatment_id, day):
 
 
 
-def make_availabilities():
-    """ A view to create new slots for the end of the calendar """
-    last_available_day = Availability.objects.all().order_by('-date')[:1][0].date
-    today = date.today()
-    days_curr_month = monthrange(today.year, today.month)[1]
-    one_month_from_now = today + timedelta(days=days_curr_month)
-    barbers = Barber.objects.all()
+#def make_availabilities():
+#    """ A view to create new slots for the end of the calendar """
+#    last_available_day = Availability.objects.all().order_by('-date')[:1][0].date
+#    print(last_available_day)
+#    today = date.today()
+#    days_curr_month = monthrange(today.year, today.month)[1]
+#    one_month_from_now = today + timedelta(days=days_curr_month)
+#    barbers = Barber.objects.all()
+#
+#    if (last_available_day != one_month_from_now):
+#        for single_date in daterange(last_available_day, one_month_from_now + timedelta(days=1)):
+#            if single_date.weekday() != 5 and single_date.weekday() != 6:
+#                for barber in barbers:
+#                    start_time = datetime.strptime(str(single_date) + " " + str(barber.start_time), '%Y-%m-%d %H:%M:%S')
+#                    end_time = datetime.strptime(str(single_date) + " " + str(barber.end_time), '%Y-%m-%d %H:%M:%S')
+#                    for thirty_minutes in timerange(start_time, end_time):
+#                        slot = Availability(barber=barber, date=thirty_minutes.date(), time=thirty_minutes.time(), available=True)
+#                        slot.save()
 
-    if (last_available_day != one_month_from_now):
-        for single_date in daterange(last_available_day, one_month_from_now + timedelta(days=1)):
-            if single_date.weekday() != 5 and single_date.weekday() != 6:
-                for barber in barbers:
-                    start_time = datetime.strptime(str(single_date) + " " + str(barber.start_time), '%Y-%m-%d %H:%M:%S')
-                    end_time = datetime.strptime(str(single_date) + " " + str(barber.end_time), '%Y-%m-%d %H:%M:%S')
-                    for thirty_minutes in timerange(start_time, end_time):
-                        slot = Availability(barber=barber, date=thirty_minutes.date(), time=thirty_minutes.time(), available=True)
-                        slot.save()
 
-
-def clean_up_availabilities():
-    """ A view to delete availability for past dates """
-    oldest_available_date = Availability.objects.all().order_by('date')[:1][0].date
-    today = date.today()
-    if oldest_available_date < today:
-        availabilities = Availability.objects.all().order_by('date')
-        for availability in availabilities:
-            if availability.date < today:
-                availability.delete()
+#def clean_up_availabilities():
+#    """ A view to delete availability for past dates """
+#    oldest_available_date = Availability.objects.all().order_by('date')[:1][0].date
+#    today = date.today()
+#    if oldest_available_date < today:
+#        availabilities = Availability.objects.all().order_by('date')
+#        for availability in availabilities:
+#            if availability.date < today:
+#                availability.delete()
 
 def new_booking_4(request, treatment_id, day, barber_id):
     """ A view to return the third fourth of the booking page (select time) """
     treatment = get_object_or_404(Treatment, id=treatment_id)
     barber = get_object_or_404(Barber, id=barber_id)
-    clean_up_availabilities()
-    make_availabilities()
+#    clean_up_availabilities()
+#    make_availabilities()
     availabilities = Availability.objects.filter(barber=barber, date=day, available=True)
+    if not availabilities:
+        print(availabilities)
+    else:
+        print('else')
     template = 'booking/new_booking_4.html'
     context = {
         'treatment': treatment,
@@ -131,23 +136,3 @@ def new_booking_4(request, treatment_id, day, barber_id):
         'availabilities': availabilities,
     }
     return render(request, template, context)
-
-
-# def new_booking_5(request, treatment_id, day, barber_id, availability_id):
-#     """ A view to return the fifth step of the booking page (recap) """
-#     treatment = get_object_or_404(Treatment, id=treatment_id)
-#     barber = get_object_or_404(Barber, id=barber_id)
-#     availability = get_object_or_404(Availability, id=availability_id)
-#     if request.method == 'POST':
-#         slots = int(treatment.duration.seconds/60/30)
-#         for slot in range(1, slots + 1):
-#             Availability.objects.filter(id=availability_id).update(available=False)
-#             availability_id += 1
-#     template = 'booking/new_booking_5.html'
-#    context = {
-#         'treatment': treatment,
-#         'day': day,
-#         'barber': barber,
-#         'availability': availability,
-#     }
-#     return render(request, template, context)

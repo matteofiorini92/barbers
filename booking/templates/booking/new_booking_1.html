@@ -21,20 +21,20 @@
             {% if not forloop.counter|divisibleby:2 %}
                 <div class="row">    
             {% endif %} 
-                    <div class="card border-dark text-white bg-danger mb-3 mx-3 col-12 col-md-5 px-0">
+                    <div class="card border-dark text-white bg-danger mb-3 mx-3 col-12 col-md-5 px-0 rounded-0">
                         {% if treatment.picture %}
-                            <img src="{{ treatment.picture.url }}" class="card-img-top d-none d-md-block" alt="{{ treatment.name }}">
+                            <img src="{{ treatment.picture.url }}" class="card-img-top d-none d-md-block rounded-0" alt="{{ treatment.name }}">
                         {% else %}
-                        <img src="{{ MEDIA_URL }}no-image-icon.png" class="card-img-top d-none d-md-block" alt="{{ treatment.name }}">
+                        <img src="{{ MEDIA_URL }}no-image-icon.png" class="card-img-top d-none d-md-block rounded-0" alt="{{ treatment.name }}">
                         {% endif %}
                         <h5 class="card-title text-center pt-3">{{ treatment.name }}</h5>
                         <div class="card-body">
                             <p class="card-text">{{ treatment.description }}</p>
                             <div class="text-center">
-                                <a href="{% url 'new_booking_2' treatment.id %}" class="btn btn-dark">Select</a>
+                                <a href="{% url 'new_booking_2' treatment.id %}" class="btn btn-dark rounded-0">Select</a>
                             </div>
                         </div>
-                        <div class="card-footer fs-5 row">
+                        <div class="card-footer fs-5 row mx-0">
                             <div class="col-6">
                                 <p class="treatment-duration m-0"><i class="fas fa-stopwatch"></i> {{ treatment.duration | duration }}</p>
                             </div>

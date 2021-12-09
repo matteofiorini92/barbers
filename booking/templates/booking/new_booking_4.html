@@ -16,17 +16,13 @@
 
 {% block content %}
     <div class="container">
-        {{ treatment }}
-        {{ day }}
-        {{ barber.barber_name }}
-        {{ availability.date }}
         <div class="row">
         {% for availability in availabilities %}
             {% if forloop.counter == 1 or forloop.counter|add:-1|divisibleby:6 %}
                 <div class="col-3">
             {% endif %} 
                     <a href="{% url 'checkout' treatment.id barber.id availability.id %}"
-                                class="btn btn-dark mt-1 time-button">{{ availability.time|time:'H:i' }}</a>
+                                class="btn btn-dark mt-1 time-button rounded-0">{{ availability.time|time:'H:i' }}</a>
             {% if forloop.counter|divisibleby:6 %}
                 </div> 
             {% endif %} 
