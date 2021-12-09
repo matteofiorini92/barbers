@@ -5,6 +5,7 @@ from django.views.decorators.http import require_POST
 # from django.contrib import messages
 from booking.models import Availability
 from management.models import Treatment, Barber
+from django.contrib.auth.models import User
 from profiles.models import UserProfile
 from .forms import ReservationForm
 from .models import Reservation
@@ -42,14 +43,17 @@ def checkout(request, treatment_id, barber_id, availability_id):
     treatment = get_object_or_404(Treatment, id=treatment_id)
     barber = get_object_or_404(Barber, id=barber_id)
     availability = get_object_or_404(Availability, id=availability_id)
-    user = get_object_or_404(UserProfile, user=request.user)
+    profile = get_object_or_404(UserProfile, user=request.user)
+    user = get_object_or_404(User, username=request.user)
     form = ReservationForm(initial={
         'treatment': treatment,
         'barber': barber,
         'date': availability.date,
         'time': availability.time,
         'order_total': treatment.price,
-        'phone_number': user.default_phone_number    
+        'email': user.email,
+        'full_name': user.first_name + ' ' + user.last_name,
+        'phone_number': profile.default_phone_number
     })
     # https://stackoverflow.com/questions/50934156/how-to-disable-a-field-in-crispy-form-django
     form.fields['treatment'].disabled = True

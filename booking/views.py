@@ -9,8 +9,7 @@ from management.models import Treatment, Barber
 
 def new_booking_1(request):
     """ A view to return the first step of the booking page (select treatment) """
-    treatments = Treatment.objects.all()
-    print(treatments[0].picture.url)
+    treatments = Treatment.objects.all().order_by('name')
     template = 'booking/new_booking_1.html'
     context = {
         'treatments': treatments,
