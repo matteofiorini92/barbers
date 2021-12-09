@@ -24,10 +24,10 @@ def daterange(start_date, end_date):
         yield start_date + timedelta(n)
 
 # adapt above view to iterate through 30 minutes delta
-#def timerange(start_time, end_time):
-#    for n in range(int((end_time - start_time).seconds/1800)):
-#       delta = 30 * n
-#        yield start_time + timedelta(minutes=delta)
+def timerange(start_time, end_time):
+    for n in range(int((end_time - start_time).seconds/1800)):
+        delta = 30 * n
+        yield start_time + timedelta(minutes=delta)
 
 
 def new_booking_2(request, treatment_id):
@@ -116,6 +116,8 @@ def new_booking_3(request, treatment_id, day):
 #        for availability in availabilities:
 #            if availability.date < today:
 #                availability.delete()
+#            else:
+#                break
 
 def new_booking_4(request, treatment_id, day, barber_id):
     """ A view to return the third fourth of the booking page (select time) """
