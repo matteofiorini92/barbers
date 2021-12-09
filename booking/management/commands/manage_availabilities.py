@@ -28,15 +28,10 @@ class Command(BaseCommand):
         today = date.today()
         days_curr_month = monthrange(today.year, today.month)[1]
         one_month_from_now = today + timedelta(days=days_curr_month)
-        print(last_available_day)
-        print(today)
-        print(days_curr_month)
-        print(one_month_from_now)
         barbers = Barber.objects.all()
 
         if (last_available_day != one_month_from_now):
             for single_date in daterange(last_available_day + timedelta(days=1), one_month_from_now + timedelta(days=1)):
-                print(single_date)
                 if single_date.weekday() != 5 and single_date.weekday() != 6:
                     for barber in barbers:
                         start_time = datetime.strptime(str(single_date) + " " + str(barber.start_time), '%Y-%m-%d %H:%M:%S')

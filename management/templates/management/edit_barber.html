@@ -3,8 +3,15 @@
 {% load crispy_forms_tags %}
 
 {% block page_header %}
-    <div class="container header-container mt-3">
-        <h4>Edit A Barber</h4>
+    <div class="container header-container">
+        <div class="row">
+            <div class="col">
+                <hr>
+                <h2 class="mb-4">Management</h2>
+                <h5>Manage barbers</h5>
+                <hr>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
@@ -15,12 +22,12 @@
                 <form action="{% url 'get_barber' %}" method="POST">
                     {% csrf_token %}
                     <label for="barber">Select the barber you want to edit:</label>
-                    <select name="barber" id="barber-select">
+                    <select name="barber" id="barber-select" class="form-control">
                         {% for barber in barbers %}
                             <option value="{{ barber.id }}">{{ barber.barber_name }}</option>
                         {% endfor %}
                     </select>
-                    <input type="submit" value="Submit" class="btn btn-danger mt-3">
+                    <input type="submit" value="Submit" class="btn btn-danger my-3">
                 </form>
             </div>
         </div>
@@ -31,9 +38,9 @@
                         {% csrf_token %}
                         {{ form|crispy }}
                         <input type="hidden" id="id" name="id" value="{{ barber_id }}">
-                        <input type="submit" value="Submit" class="btn btn-danger mt-3">
+                        <input type="submit" value="Submit" class="btn btn-danger my-3">
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_modal_{{ barber_id }}">
+                        <button type="button" class="btn btn-dark my-3" data-bs-toggle="modal" data-bs-target="#delete_modal_{{ barber_id }}">
                             Delete
                         </button>
                         

@@ -3,24 +3,31 @@
 {% load crispy_forms_tags %}
 
 {% block page_header %}
-    <div class="container header-container mt-3">
-        <h4>Edit A Treatment</h4>
+<div class="container header-container">
+    <div class="row">
+        <div class="col">
+            <hr>
+            <h2 class="mb-4">Management</h2>
+            <h5>Manage treatments</h5>
+            <hr>
+        </div>
     </div>
+</div>
 {% endblock %}
 
 {% block content %}
     <div class="container mt-3">
         <div class="row">
-            <div class="col-10">
+            <div class="col-10 mt-3">
                 <form action="{% url 'get_treatment' %}" method="POST">
                     {% csrf_token %}
                     <label for="treatment">Select the treatment you want to edit:</label>
-                    <select name="treatment" id="treatment-select">
+                    <select name="treatment" id="treatment-select" class="form-control">
                         {% for treatment in treatments %}
                             <option value="{{ treatment.id }}">{{ treatment.name }}</option>
                         {% endfor %}
                     </select>
-                    <input type="submit" value="Submit" class="btn btn-danger mt-3">
+                    <input type="submit" value="Submit" class="btn btn-danger my-3">
                 </form>
             </div>
         </div>
@@ -31,9 +38,9 @@
                         {% csrf_token %}
                         {{ form|crispy }}
                         <input type="hidden" id="id" name="id" value="{{ treatment_id }}">
-                        <input type="submit" value="Submit" class="btn btn-danger mt-3">
+                        <input type="submit" value="Submit" class="btn btn-danger my-3">
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_modal_{{ treatment_id }}">
+                        <button type="button" class="btn btn-dark my-3" data-bs-toggle="modal" data-bs-target="#delete_modal_{{ treatment_id }}">
                             Delete
                         </button>
                         
