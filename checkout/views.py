@@ -90,7 +90,7 @@ def checkout(request, treatment_id, barber_id, availability_id):
             pid = request.POST.get('client_secret').split('_secret')[0]
             reservation.stripe_pid = pid
             if request.user.is_authenticated:
-                reservation.user_profile = user
+                reservation.user_profile = profile
             else:
                 reservation.user_profile = None
             reservation.save()
