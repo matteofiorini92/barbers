@@ -2,6 +2,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from .forms import TreatmentForm, BarberForm
 from .models import Treatment, Barber
+from checkout.models import Reservation
+from datetime import date
 
 
 def new_treatment(request):
@@ -68,8 +70,6 @@ def delete_treatment(request, treatment_id):
     treatment.delete()
     return HttpResponseRedirect('/')
 
-###################################
-
 def new_barber(request):
     if request.method == 'POST':
         form = BarberForm(request.POST, request.FILES)
@@ -132,3 +132,17 @@ def delete_barber(request, barber_id):
     barber = get_object_or_404(Barber, id=barber_id)
     barber.delete()
     return HttpResponseRedirect('/')
+
+
+def list_of_reservations(request, day=date.today()):
+    if request.method == 'POST':
+        day = request.POST['day']
+    reservations = Reservation.objects.filter(date=day).order_by('time')
+    barbers = Barber.objects.all()
+    context = {
+        'reservations': reservations,
+        'barbers': barbers,
+        'day': day,
+    }
+    template = 'management/list_of_reservations.html'
+    return render(request, template, context)
