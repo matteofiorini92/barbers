@@ -3,7 +3,9 @@ from django.shortcuts import render, get_object_or_404
 from .forms import TreatmentForm, BarberForm
 from .models import Treatment, Barber
 from checkout.models import Reservation
-from datetime import date
+from booking.models import Availability
+from booking.views import daterange, timerange
+from datetime import date, datetime, timedelta
 
 
 def new_treatment(request):
@@ -75,7 +77,23 @@ def new_barber(request):
         form = BarberForm(request.POST, request.FILES)
         if form.is_valid():
             barber = form.save()
-            return HttpResponseRedirect('/')
+        """
+        Creates new slots when a new barber is created
+        It will only create availabilities to match the last available date of other barbers.
+        """
+        try:
+            last_available_day = Availability.objects.all().order_by('-date')[:1][0].date
+        except IndexError:
+            last_available_day = date.today()
+        today = date.today()
+        for single_date in daterange(today + timedelta(days=1), last_available_day + timedelta(days=1)):
+            if single_date.weekday() != 5 and single_date.weekday() != 6:
+                start_time = datetime.strptime(str(single_date) + " " + str(barber.start_time), '%Y-%m-%d %H:%M:%S')
+                end_time = datetime.strptime(str(single_date) + " " + str(barber.end_time), '%Y-%m-%d %H:%M:%S')
+                for thirty_minutes in timerange(start_time, end_time):
+                    slot = Availability(barber=barber, date=thirty_minutes.date(), time=thirty_minutes.time(), available=True)
+                    slot.save()
+        return HttpResponseRedirect('/')
     else:
         form = BarberForm(initial={'start_time': '08:00:00', 'end_time': '17:00:00'})
 
