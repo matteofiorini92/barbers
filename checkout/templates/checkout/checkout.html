@@ -35,27 +35,35 @@
                     </fieldset>
                 </div>
                 <div class="col-12 col-md-6">
-                <fieldset class="rounded px-3 mb-5">
-                        <legend class="fieldset-label small text-black px-2 w-auto">Your Details</legend>
-                        {{ form.full_name | as_crispy_field }}
-                        {{ form.email | as_crispy_field }}
-                        {{ form.phone_number | as_crispy_field }}
-                    </fieldset>
+                    <div class="row">
+                        <div class="col">
+                            <fieldset class="rounded px-3 mb-5">
+                                <legend class="fieldset-label small text-black px-2 w-auto">Your Details</legend>
+                                {{ form.full_name | as_crispy_field }}
+                                {{ form.email | as_crispy_field }}
+                                {{ form.phone_number | as_crispy_field }}
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <fieldset class="px-3">
+                                <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
+                                <!-- A Stripe card element will go here -->
+                                <div class="mb-3 form-control bg-dark" id="card-element"></div>
+                                <!-- Used to display form errors -->
+                                <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+                                <!-- Pass the client secret to the view so we can get the payment intent id -->
+                                <input type="hidden" value="{{ client_secret }}" name="client_secret">
+                                <!-- Pass the availability id to the view so we can pass it to Stripe to create the reservation via webhook -->
+                                <input type="hidden" value="{{ availability.id }}" name="availability_id">
+                            </fieldset>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <fieldset class="px-3">
-                <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
-                <!-- A Stripe card element will go here -->
-                <div class="mb-3" id="card-element"></div>
-                <!-- Used to display form errors -->
-                <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
-                <!-- Pass the client secret to the view so we can get the payment intent id -->
-                <input type="hidden" value="{{ client_secret }}" name="client_secret">
-                <!-- Pass the availability id to the view so we can pass it to Stripe to create the reservation via webhook -->
-                <input type="hidden" value="{{ availability.id }}" name="availability_id">
-            </fieldset>
             <div class="text-end">
-                <button type="submit" class="btn btn-danger my-3" id="submit-button">Checkout</button>
+                <button type="submit" class="btn btn-danger mb-5" id="submit-button">Checkout</button>
             </div>
         </form>
     </div>
