@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h4>Hello {{ reservation.full_name }}, your reservation is confirmed!</h4>
+    <div>
+        Here are the booking details: <br><br>
+
+        Reservation number: {{ reservation.id }}<br>
+        Your barber: {{ reservation.barber }}<br>
+        Treatment booked: {{ reservation.treatment }}<br>
+        Date and time: {{ reservation.date }} - {{ reservation.time }}<br><br>
+                
+        You've paid: € {{ reservation.order_total }}
+    </div>
+</body>
+</html>

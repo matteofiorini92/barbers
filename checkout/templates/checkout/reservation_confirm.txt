@@ -1,0 +1,10 @@
+Hello {{ reservation.full_name }}, your reservation is confirmed!
+
+Here are the booking details:
+
+Reservation number: {{ reservation.id }}
+Your barber: {{ reservation.barber }}
+Treatment booked: {{ reservation.treatment }}
+Date and time: {{ reservation.date }} - {{ reservation.time }}
+    
+You've paid: € {{ reservation.order_total }}

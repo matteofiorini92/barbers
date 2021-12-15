@@ -2,13 +2,15 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpR
 from django.conf import settings
 from django.contrib import messages
 from django.views.decorators.http import require_POST
-# from django.contrib import messages
+from django.contrib import messages
 from booking.models import Availability
 from management.models import Treatment, Barber
 from django.contrib.auth.models import User
 from profiles.models import UserProfile
 from .forms import ReservationForm
 from .models import Reservation
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 
 import stripe
@@ -112,8 +114,6 @@ def checkout(request, treatment_id, barber_id, availability_id):
             currency=settings.STRIPE_CURRENCY,
         )
 
-
-
     template = 'checkout/checkout.html'
     context = {
         'stripe_public_key': stripe_public_key,
@@ -131,7 +131,18 @@ def checkout_success(request, reservation_id):
     reservation = get_object_or_404(Reservation, id=reservation_id)
     messages.success(request, f'Reservation confirmed! Your reservation number is { reservation_id }')
     template = 'checkout/checkout-success.html'
+    msg_plain = 'checkout/reservation_confirm.txt'
+    msg_html = 'checkout/reservation_confirm.html'
     context = {
         'reservation': reservation
     }
+    msg_plain = render_to_string(msg_plain, context)
+    msg_html = render_to_string(msg_html, context)
+    send_mail(
+        f'Reservation confirmed - number { reservation_id }',
+        msg_plain,
+        settings.DEFAULT_FROM_EMAIL,
+        [reservation.email],
+        html_message=msg_html,
+    )
     return render(request, template, context)
