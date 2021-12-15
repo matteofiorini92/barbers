@@ -27,7 +27,7 @@ def new_treatment(request):
 
 def get_treatment(request):
     if request.method == 'POST':
-        treatment_id = request.POST["treatment"]
+        treatment_id = int(request.POST["treatment"])
         treatment = get_object_or_404(Treatment, id=treatment_id)
         form = TreatmentForm(initial={
             'name': treatment.name,
@@ -39,12 +39,12 @@ def get_treatment(request):
         form = TreatmentForm()
         treatment_id = None
         treatment = None
-    treatments = Treatment.objects.all()
+    treatments = Treatment.objects.all().order_by('name')
     template = 'management/edit_treatment.html'
     context = {
         'form': form,
         'treatments': treatments,
-        'treatment_id': int(treatment_id),
+        'treatment_id': treatment_id,
         'treatment': treatment
     }
     return render(request, template, context)
@@ -60,7 +60,7 @@ def edit_treatment(request):
             form = TreatmentForm()
             treatment_id = None
             treatment = None
-            treatments = Treatment.objects.all()
+            treatments = Treatment.objects.all().order_by('name')
             template = 'management/edit_treatment.html'
             context = {
                 'form': form,
@@ -71,7 +71,7 @@ def edit_treatment(request):
             return render(request, template, context)
     else:
         form = TreatmentForm()
-    treatments = Treatment.objects.all()
+    treatments = Treatment.objects.all().order_by('name')
     template = 'management/edit_treatment.html'
     context = {
         'form': form,
@@ -87,7 +87,7 @@ def delete_treatment(request, treatment_id):
     form = TreatmentForm()
     treatment_id = None
     treatment = None
-    treatments = Treatment.objects.all()
+    treatments = Treatment.objects.all().order_by('name')
     template = 'management/edit_treatment.html'
     context = {
         'form': form,
@@ -131,7 +131,7 @@ def new_barber(request):
 
 def get_barber(request):
     if request.method == 'POST':
-        barber_id = request.POST["barber"]
+        barber_id = int(request.POST["barber"])
         barber = get_object_or_404(Barber, id=barber_id)
         form = BarberForm(initial={
             'barber_name': barber.barber_name,
@@ -142,12 +142,12 @@ def get_barber(request):
         form = BarberForm()
         barber_id = None
         barber = None
-    barbers = Barber.objects.all()
+    barbers = Barber.objects.all().order_by('barber_name')
     template = 'management/edit_barber.html'
     context = {
         'form': form,
         'barbers': barbers,
-        'barber_id': int(barber_id),
+        'barber_id': barber_id,
         'barber': barber
     }
     return render(request, template, context)
@@ -163,7 +163,7 @@ def edit_barber(request):
             form = BarberForm()
             barber_id = None
             barber = None
-            barbers = Barber.objects.all()
+            barbers = Barber.objects.all().order_by('barber_name')
             template = 'management/edit_barber.html'
             context = {
                 'form': form,
@@ -190,7 +190,7 @@ def delete_barber(request, barber_id):
     form = BarberForm()
     barber_id = None
     barber = None
-    barbers = Barber.objects.all()
+    barbers = Barber.objects.all().order_by('barber_name')
     template = 'management/edit_barber.html'
     context = {
         'form': form,
@@ -205,7 +205,7 @@ def list_of_reservations(request, day=date.today()):
     if request.method == 'POST':
         day = request.POST['day']
     reservations = Reservation.objects.filter(date=day).order_by('time')
-    barbers = Barber.objects.all()
+    barbers = Barber.objects.all().order_by('barber_name')
     context = {
         'reservations': reservations,
         'barbers': barbers,
