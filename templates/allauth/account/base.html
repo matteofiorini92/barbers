@@ -1,1 +1,12 @@
 {% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-10">
+                {% block all_auth_content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
