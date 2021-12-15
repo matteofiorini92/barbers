@@ -10,6 +10,7 @@ from .forms import ReservationForm
 from .models import Reservation
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from datetime import datetime
 
 
 import stripe
@@ -51,7 +52,7 @@ def checkout(request, treatment_id, barber_id, availability_id):
             'treatment': treatment,
             'barber': barber,
             'date': availability.date,
-            'time': availability.time,
+            'time': availability.time.strftime("%H:%M"),
             'order_total': treatment.price,
             'email': user.email,
             'full_name': user.first_name + ' ' + user.last_name,
@@ -62,7 +63,7 @@ def checkout(request, treatment_id, barber_id, availability_id):
             'treatment': treatment,
             'barber': barber,
             'date': availability.date,
-            'time': availability.time,
+            'time': availability.time.strftime("%H:%M"),
             'order_total': treatment.price,
         })
 
