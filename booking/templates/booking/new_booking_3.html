@@ -22,9 +22,9 @@
             {% endif %} 
                     <div class="card border-dark text-white bg-danger mb-3 mx-3 col-11 col-md-5 px-0 rounded-0">
                         {% if barber.profile_picture %}
-                            <img src="{{ barber.profile_picture.url }}" class="card-img-top d-none d-md-block rounded-0" alt="{{ barber.name }}">
+                            <img src="{{ barber.profile_picture.url }}" class="card-img-top d-none d-md-block rounded-0" alt="{{ barber.barber_name }}">
                         {% else %}
-                            <img src="{{ MEDIA_URL }}no-image-icon.png" class="card-img-top d-none d-md-block rounded-0" alt="{{ barber.name }}">
+                            <img src="{{ MEDIA_URL }}no-image-icon.png" class="card-img-top d-none d-md-block rounded-0" alt="{{ barber.barber_name }}">
                         {% endif %}
                         <div class="card-body">
                             <div class="text-center">
