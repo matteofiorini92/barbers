@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpR
 from django.conf import settings
 from django.contrib import messages
 from django.views.decorators.http import require_POST
-from django.contrib import messages
 from booking.models import Availability
 from management.models import Treatment, Barber
 from django.contrib.auth.models import User
@@ -96,7 +95,6 @@ def checkout(request, treatment_id, barber_id, availability_id):
             else:
                 reservation.user_profile = None
             reservation.save()
-            messages.success(request, ("Success message here."))
             # make slots unavailable
             slots = int(treatment.duration.seconds/60/30)
             for slot in range(1, slots + 1):

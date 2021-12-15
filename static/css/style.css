@@ -20,7 +20,7 @@ body {
 }
 
 .background-image {
-    height: 75vh;
+    height: 80vh;
     background-image: url(/media/slideshow-1.jpg);
     background-size: cover;
     background-position: bottom;
@@ -36,12 +36,14 @@ body {
 }
 
 .push {
-    height: 106px;
+    /* height: 106px; */
+    height: 12vh;
 }
 
 @media only screen and (max-width: 600px) {
     .push {
-        height: 183px;
+        /* height: 183px; */
+        height: 12vh;
     }
   }
 
