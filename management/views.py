@@ -146,7 +146,7 @@ def get_barber(request):
     context = {
         'form': form,
         'barbers': barbers,
-        'barber_id': barber_id,
+        'barber_id': int(barber_id),
         'barber': barber
     }
     return render(request, template, context)
