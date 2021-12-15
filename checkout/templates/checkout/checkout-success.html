@@ -8,7 +8,12 @@
 {% block page_header %}
     <div class="container header-container">
         <div class="row">
-            <div class="col">Thank you</div>
+            <div class="col">
+                <hr>
+                <h2 class="mb-4">Reservation Confirmed!</h2>
+                <h5>Your reservation confirmation number is {{ reservation.id }}</h5>
+                <hr>
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -16,8 +21,9 @@
 {% block content %}
     <div class="container">
         <div class="row">
-            <div class="col-10">Checkout Success</div>
-            <p>Your order confirmation number is {{ reservation.id }}</p>
+            <div class="col">
+                <a href="/" class="btn btn-danger">Back to the homepage</a>
+            </div>
         </div>
     </div>
 {% endblock %}
