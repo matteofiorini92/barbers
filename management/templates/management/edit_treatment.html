@@ -24,7 +24,11 @@
                     <label for="treatment">Select the treatment you want to edit:</label>
                     <select name="treatment" id="treatment-select" class="form-control">
                         {% for treatment in treatments %}
-                            <option value="{{ treatment.id }}">{{ treatment.name }}</option>
+                            {% if treatment_id == treatment.id %}
+                                <option value="{{ treatment.id }}" selected>{{ treatment.name }}</option>
+                            {% else %}
+                                <option value="{{ treatment.id }}">{{ treatment.name }}</option>
+                            {% endif %}                            
                         {% endfor %}
                     </select>
                     <input type="submit" value="Submit" class="btn btn-danger my-3">

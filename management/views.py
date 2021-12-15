@@ -6,6 +6,7 @@ from checkout.models import Reservation
 from booking.models import Availability
 from booking.views import daterange, timerange
 from datetime import date, datetime, timedelta
+from django.contrib import messages
 
 
 def new_treatment(request):
@@ -43,7 +44,7 @@ def get_treatment(request):
     context = {
         'form': form,
         'treatments': treatments,
-        'treatment_id': treatment_id,
+        'treatment_id': int(treatment_id),
         'treatment': treatment
     }
     return render(request, template, context)
@@ -54,8 +55,20 @@ def edit_treatment(request):
         treatment = get_object_or_404(Treatment, id=request.POST["id"])
         form = TreatmentForm(request.POST, request.FILES, instance=treatment)
         if form.is_valid():
+            messages.success(request, f'Treatment { treatment.name } correctly updated.')
             form.save()
-            return HttpResponseRedirect('/')
+            form = TreatmentForm()
+            treatment_id = None
+            treatment = None
+            treatments = Treatment.objects.all()
+            template = 'management/edit_treatment.html'
+            context = {
+                'form': form,
+                'treatments': treatments,
+                'treatment_id': treatment_id,
+                'treatment': treatment
+            }
+            return render(request, template, context)
     else:
         form = TreatmentForm()
     treatments = Treatment.objects.all()
@@ -70,7 +83,18 @@ def edit_treatment(request):
 def delete_treatment(request, treatment_id):
     treatment = get_object_or_404(Treatment, id=treatment_id)
     treatment.delete()
-    return HttpResponseRedirect('/')
+    form = TreatmentForm()
+    treatment_id = None
+    treatment = None
+    treatments = Treatment.objects.all()
+    template = 'management/edit_treatment.html'
+    context = {
+        'form': form,
+        'treatments': treatments,
+        'treatment_id': treatment_id,
+        'treatment': treatment
+    }
+    return render(request, template, context)
 
 def new_barber(request):
     if request.method == 'POST':
@@ -134,7 +158,18 @@ def edit_barber(request):
         form = BarberForm(request.POST, request.FILES, instance=barber)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/')
+            form = BarberForm()
+            barber_id = None
+            barber = None
+            barbers = Barber.objects.all()
+            template = 'management/edit_barber.html'
+            context = {
+                'form': form,
+                'barbers': barbers,
+                'barber_id': barber_id,
+                'barber': barber
+            }
+            return render(request, template, context)
     else:
         form = BarberForm()
     barbers = Barber.objects.all()
@@ -149,7 +184,18 @@ def edit_barber(request):
 def delete_barber(request, barber_id):
     barber = get_object_or_404(Barber, id=barber_id)
     barber.delete()
-    return HttpResponseRedirect('/')
+    form = BarberForm()
+    barber_id = None
+    barber = None
+    barbers = Barber.objects.all()
+    template = 'management/edit_barber.html'
+    context = {
+        'form': form,
+        'barbers': barbers,
+        'barber_id': barber_id,
+        'barber': barber
+    }
+    return render(request, template, context)
 
 
 def list_of_reservations(request, day=date.today()):
