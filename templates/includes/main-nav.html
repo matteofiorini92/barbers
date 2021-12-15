@@ -2,16 +2,18 @@
     <div class="container-fluid nav-container">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <!-- <span class="navbar-toggler-icon"></span> -->
+            <span class="navbar-logo-mobile">BARBERS FLO</span>
         </button>
-        <a class="navbar-brand" href="/">BARBERS FLO</a>
+        <a class="navbar-logo" href="/">BARBERS FLO</a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item me-2"><a href="/" class="nav-link nav-link-home"><i class="fas fa-home fa-2x" title="home"></i></a></li>
                 {% if request.user.is_authenticated %}
                     {% if request.user.is_superuser %}
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown me-2">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown-management" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Management
+                                <i class="fas fa-tasks fa-2x" title="Management"></i>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown-management">
                                 <li><a class="dropdown-item" href="/management/reservations/">Reservations</a></li>
@@ -22,12 +24,12 @@
                             </ul>
                         </li>
                     {% endif %}
-                    <li class="nav-item"><a href="{% url 'profile' %}" class="nav-link">My Profile</a></li>
-                    <li class="nav-item"><a href="{% url 'account_logout' %}" class="nav-link">Sign Out</a></li>
+                    <li class="nav-item me-2"><a href="{% url 'profile' %}" class="nav-link"><i class="fas fa-user-circle fa-2x" title="My Profile"></i></a></li>
+                    <li class="nav-item me-2"><a href="{% url 'account_logout' %}" class="nav-link"><i class="fas fa-sign-out-alt fa-2x" title="Sign Out"></i></a></li>
                 {% else %}
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown me-2">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown-profile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user-circle fa-2x"></i>
+                            <i class="fas fa-sign-in-alt fa-2x"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown-profile">
                             <li><a class="dropdown-item" href="{% url 'account_signup' %}">Register</a></li>
@@ -37,6 +39,6 @@
                 {% endif %}
             </ul>
         </div>
-        <a class="btn btn-danger" href="/booking/">BOOK NOW</a>
+        <a class="btn btn-danger" href="/booking/">BOOK</a>
     </div>
 </nav>
