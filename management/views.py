@@ -83,6 +83,7 @@ def edit_treatment(request):
 def delete_treatment(request, treatment_id):
     treatment = get_object_or_404(Treatment, id=treatment_id)
     treatment.delete()
+    messages.success(request, f'Treatment { treatment.name } correctly deleted.')
     form = TreatmentForm()
     treatment_id = None
     treatment = None
@@ -158,6 +159,7 @@ def edit_barber(request):
         form = BarberForm(request.POST, request.FILES, instance=barber)
         if form.is_valid():
             form.save()
+            messages.success(request, f'Barber { barber.barber_name } correctly updated.')
             form = BarberForm()
             barber_id = None
             barber = None
@@ -184,6 +186,7 @@ def edit_barber(request):
 def delete_barber(request, barber_id):
     barber = get_object_or_404(Barber, id=barber_id)
     barber.delete()
+    messages.success(request, f'Barber { barber.barber_name } correctly deleted.')
     form = BarberForm()
     barber_id = None
     barber = None
