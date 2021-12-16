@@ -21,7 +21,7 @@
             <div class="col-10 mt-3">
                 <form action="{% url 'get_treatment' %}" method="POST">
                     {% csrf_token %}
-                    <label for="treatment">Select the treatment you want to edit:</label>
+                    <label for="treatment-select">Select the treatment you want to edit:</label>
                     <select name="treatment" id="treatment-select" class="form-control">
                         {% for treatment in treatments %}
                             {% if treatment_id == treatment.id %}

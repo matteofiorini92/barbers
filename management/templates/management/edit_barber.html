@@ -21,7 +21,7 @@
             <div class="col-10">
                 <form action="{% url 'get_barber' %}" method="POST">
                     {% csrf_token %}
-                    <label for="barber">Select the barber you want to edit:</label>
+                    <label for="barber-select">Select the barber you want to edit:</label>
                     <select name="barber" id="barber-select" class="form-control">
                         {% for barber in barbers %}
                             {% if barber_id == barber.id %}

@@ -57,7 +57,6 @@ form.addEventListener('submit', function(ev) {
     var date = $('input[name="date"]').val();
     var time = $('input[name="time"]').val();
     var availability_id = $('input[name="availability_id"]').val();
-    console.log(availability_id)
     var postData = {
         'csrfmiddlewaretoken': csrfToken,
         'client_secret': clientSecret,
@@ -99,6 +98,6 @@ form.addEventListener('submit', function(ev) {
             }
         }).fail(function(){
             location.reload();
-        })
-    })
+        });
+    });
 });
