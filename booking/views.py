@@ -75,7 +75,6 @@ def new_booking_3(request, treatment_id, day):
     """ A view to return the third step of the booking page (select barber) """
     treatment = get_object_or_404(Treatment, id=treatment_id)
     barbers = Barber.objects.all().order_by('barber_name')
-    print(barbers[0].profile_picture.url)
     template = 'booking/new_booking_3.html'
     context = {
         'treatment': treatment,
@@ -89,11 +88,20 @@ def new_booking_4(request, treatment_id, day, barber_id):
     """ A view to return the third fourth of the booking page (select time) """
     treatment = get_object_or_404(Treatment, id=treatment_id)
     barber = get_object_or_404(Barber, id=barber_id)
-    availabilities = Availability.objects.filter(barber=barber, date=day, available=True)
-    if not availabilities:
-        print(availabilities)
-    else:
-        print('else')
+    availabilities = Availability.objects.filter(barber=barber, date=day).order_by('time')
+    slots = int(treatment.duration.seconds/60/30)
+    for availability in availabilities:
+        available = True
+        availability_id = availability.id
+        for slot in range(1, slots + 1):
+            if not Availability.objects.get(id=availability_id).available:
+                available = False
+                break
+            availability_id += 1
+        if available:
+            availability.available = True
+        else:
+            availability.available = False
     template = 'booking/new_booking_4.html'
     context = {
         'treatment': treatment,

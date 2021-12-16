@@ -17,16 +17,25 @@
 {% block content %}
     <div class="container">
         <div class="row">
-        {% for availability in availabilities %}
-            {% if forloop.counter == 1 or forloop.counter|add:-1|divisibleby:6 %}
-                <div class="col-3">
-            {% endif %} 
-                    <a href="{% url 'checkout' treatment.id barber.id availability.id %}"
-                                class="btn btn-dark mt-1 time-button rounded-0">{{ availability.time|time:'H:i' }}</a>
-            {% if forloop.counter|divisibleby:6 %}
-                </div> 
-            {% endif %} 
-        {% endfor %}
+            {% if availabilities%}
+                {% for availability in availabilities %}
+                    {% if forloop.counter == 1 or forloop.counter|add:-1|divisibleby:6 %}
+                        <div class="col-3">
+                    {% endif %}
+                    {% if availability.available %}
+                        <a href="{% url 'checkout' treatment.id barber.id availability.id %}"
+                            class="btn btn-dark mt-1 time-button rounded-0">{{ availability.time|time:'H:i' }}</a>
+                    {% else %}
+                        <a href="{% url 'checkout' treatment.id barber.id availability.id %}"
+                            class="btn btn-dark mt-1 time-button rounded-0 disabled">{{ availability.time|time:'H:i' }}</a>
+                    {% endif %}
+                    {% if forloop.counter|divisibleby:6 or forloop.counter == availabilities|length %}
+                        </div> 
+                    {% endif %} 
+                {% endfor %}
+            {% else %}
+                <h4>Sorry, there are no availabile spots for this day and barber</h4>
+            {% endif %}
         </div>   
     </div>
 {% endblock %}
