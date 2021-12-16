@@ -203,13 +203,26 @@ def delete_barber(request, barber_id):
 
 def list_of_reservations(request, day=date.today()):
     if request.method == 'POST':
-        day = request.POST['day']
-    reservations = Reservation.objects.filter(date=day).order_by('time')
+        day = datetime.strptime(request.POST['day'],"%Y-%m-%d")
+    reservations_list = Reservation.objects.filter(date=day).order_by('time')
     barbers = Barber.objects.all().order_by('barber_name')
+    barber_reservations = []
+    for barber in barbers:
+        reservations = reservations_list.filter(barber=barber)
+        num_of_reservations = reservations.__len__()
+        item = {
+            'barber': barber.barber_name,
+            'num_of_reservations': num_of_reservations,
+            'reservations': reservations
+        }
+        barber_reservations.append(item)
+    total_reservations = 0
+    for i in barber_reservations:
+        total_reservations += i["num_of_reservations"]
     context = {
-        'reservations': reservations,
-        'barbers': barbers,
         'day': day,
+        'barber_reservations': barber_reservations,
+        'total_reservations': total_reservations
     }
     template = 'management/list_of_reservations.html'
     return render(request, template, context)
