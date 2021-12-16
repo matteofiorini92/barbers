@@ -4,7 +4,7 @@ body {
 }
 
 .nav-block {
-    height: 56px;
+    height: 40px;
 }
 
 .dropdown-toggle::after {
@@ -148,6 +148,14 @@ footer p {
 
 .navbar-logo {
     display: inline;
+}
+
+.logo-img {
+    max-height: 50px;
+}
+
+.logo-img-mobile {
+    max-height: 45px;
 }
 
 @media only screen and (max-width: 991px) {
