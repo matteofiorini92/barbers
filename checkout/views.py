@@ -1,33 +1,35 @@
-from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpResponse
+from django.shortcuts import (render, redirect,
+                              get_object_or_404, HttpResponse)
 from django.conf import settings
 from django.contrib import messages
 from django.views.decorators.http import require_POST
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
+from django.contrib.auth.models import User
+import stripe
 from booking.models import Availability
 from management.models import Treatment, Barber
-from django.contrib.auth.models import User
 from profiles.models import UserProfile
 from .forms import ReservationForm
 from .models import Reservation
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from datetime import datetime
 
-
-import stripe
 
 # Create your views here.
 
+
 @require_POST
 def cache_checkout_data(request):
+    """ A view to store the checkout data and create a payment intent for stripe.
+    Called by stripe wh and used in case a user closes the window before the
+    checkout view has created the reservation """
     pid = request.POST.get('client_secret').split('_secret')[0]
     stripe.api_key = settings.STRIPE_SECRET_KEY
     treatment = request.POST.get('treatment')
     barber = request.POST.get('barber')
     date = request.POST.get('date')
     time = request.POST.get('time')
-    order_total = request.POST.get('order_total')
     availability_id = request.POST.get('availability_id')
-    
+
     stripe.PaymentIntent.modify(pid, metadata={
         'username': request.user,
         'treatment': treatment,
@@ -40,6 +42,8 @@ def cache_checkout_data(request):
 
 
 def checkout(request, treatment_id, barber_id, availability_id):
+    """ A view to process the payment via stripe and
+    create the reservation in the database """
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
     treatment = get_object_or_404(Treatment, id=treatment_id)
@@ -99,7 +103,8 @@ def checkout(request, treatment_id, barber_id, availability_id):
             # make slots unavailable
             slots = int(treatment.duration.seconds/60/30)
             for slot in range(1, slots + 1):
-                Availability.objects.filter(id=availability_id).update(available=False)
+                Availability.objects.filter(
+                    id=availability_id).update(available=False)
                 availability_id += 1
             return redirect('checkout_success', reservation.id)
         else:
@@ -127,8 +132,12 @@ def checkout(request, treatment_id, barber_id, availability_id):
 
 
 def checkout_success(request, reservation_id):
+    """ A view to redirect to the success page """
     reservation = get_object_or_404(Reservation, id=reservation_id)
-    messages.success(request, f'Reservation confirmed! Your reservation number is { reservation_id }')
+    messages.success(
+        request,
+        f'Reservation confirmed! Your reservation number is { reservation_id }'
+    )
     template = 'checkout/checkout-success.html'
     msg_plain = 'checkout/reservation_confirm.txt'
     msg_html = 'checkout/reservation_confirm.html'

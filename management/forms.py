@@ -3,6 +3,8 @@ from .models import Treatment, Barber
 
 
 # Create the form class.
+
+
 class TreatmentForm(ModelForm):
     class Meta:
         model = Treatment

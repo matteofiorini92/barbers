@@ -3,6 +3,7 @@ from .models import Treatment, Barber
 
 # Register your models here.
 
+
 class BarberAdmin(admin.ModelAdmin):
     list_display = (
         'barber_name',

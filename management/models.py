@@ -15,7 +15,9 @@ class Treatment(models.Model):
     name = models.CharField(max_length=254)
     description = models.CharField(max_length=1000)
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    duration = models.DurationField(null=False, blank=False, choices=TreatmentDurations.choices, default=TreatmentDurations.THIRTY_MINUTES)
+    duration = models.DurationField(
+        null=False, blank=False, choices=TreatmentDurations.choices,
+        default=TreatmentDurations.THIRTY_MINUTES)
     picture = models.ImageField(null=True, blank=True)
 
     def __str__(self):
@@ -37,6 +39,7 @@ class Barber(models.Model):
         ONE_OCLOCK = 13, 00, 0, '13:00'
         ONE_THIRTY = 13, 30, 0, '13:30'
         TWO_OCLOCK = 14, 00, 0, '14:00'
+
     class BarberEndTimes(time, models.Choices):
         TWELVE_OCLOCK = 12, 00, 0, '12:00'
         TWELVE_THIRTY = 12, 30, 0, '12:30'
@@ -52,8 +55,12 @@ class Barber(models.Model):
         FIVE_THIRTY = 17, 30, 0, '17:30'
         SIX_OCLOCK = 18, 00, 0, '18:00'
     barber_name = models.CharField(max_length=254)
-    start_time = models.TimeField(null=False, blank=False, choices=BarberStartTimes.choices, default=BarberStartTimes.EIGHT_OCLOCK)
-    end_time = models.TimeField(null=False, blank=False, choices=BarberEndTimes.choices, default=BarberEndTimes.FIVE_OCLOCK)
+    start_time = models.TimeField(
+        null=False, blank=False, choices=BarberStartTimes.choices,
+        default=BarberStartTimes.EIGHT_OCLOCK)
+    end_time = models.TimeField(
+        null=False, blank=False, choices=BarberEndTimes.choices,
+        default=BarberEndTimes.FIVE_OCLOCK)
     profile_picture = models.ImageField(null=True, blank=True)
 
     def __str__(self):

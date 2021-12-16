@@ -8,7 +8,8 @@ from management.models import Treatment, Barber
 
 
 def new_booking_1(request):
-    """ A view to return the first step of the booking page (select treatment) """
+    """ A view to return the first step of
+        the booking page (select treatment) """
     treatments = Treatment.objects.all().order_by('name')
     template = 'booking/new_booking_1.html'
     context = {
@@ -18,11 +19,14 @@ def new_booking_1(request):
 
 # https://stackoverflow.com/a/1060330/16735714
 
+
 def daterange(start_date, end_date):
     for n in range(int((end_date - start_date).days)):
         yield start_date + timedelta(n)
 
 # adapt above view to iterate through 30 minutes delta
+
+
 def timerange(start_time, end_time):
     for n in range(int((end_time - start_time).seconds/1800)):
         delta = 30 * n
@@ -45,7 +49,8 @@ def new_booking_2(request, treatment_id):
 
     days = []
     # https://stackoverflow.com/questions/9724906/python-date-of-the-previous-month
-    for single_date in daterange(first_day_curr_month, last_day_next_month + timedelta(days=1)):
+    for single_date in daterange(first_day_curr_month, last_day_next_month +
+                                 timedelta(days=1)):
         if single_date.month == curr_month:
             if single_date.day <= today.day:
                 days.append((single_date, False))
@@ -88,7 +93,10 @@ def new_booking_4(request, treatment_id, day, barber_id):
     """ A view to return the third fourth of the booking page (select time) """
     treatment = get_object_or_404(Treatment, id=treatment_id)
     barber = get_object_or_404(Barber, id=barber_id)
-    availabilities = Availability.objects.filter(barber=barber, date=day).order_by('time')
+    availabilities = Availability.objects.filter(
+                                                 barber=barber,
+                                                 date=day
+                                                ).order_by('time')
     slots = int(treatment.duration.seconds/60/30)
     for availability in availabilities:
         available = True

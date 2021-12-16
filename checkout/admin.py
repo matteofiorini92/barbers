@@ -3,6 +3,7 @@ from .models import Reservation
 
 # Register your models here.
 
+
 class ReservationAdmin(admin.ModelAdmin):
     list_display = (
         'user_profile',

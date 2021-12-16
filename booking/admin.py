@@ -3,6 +3,7 @@ from .models import Availability
 
 # Register your models here.
 
+
 class AvailabilityAdmin(admin.ModelAdmin):
     list_display = (
         'id',
@@ -10,7 +11,7 @@ class AvailabilityAdmin(admin.ModelAdmin):
         'date',
         'time',
         'available'
-)
+    )
 
 
 admin.site.register(Availability, AvailabilityAdmin)

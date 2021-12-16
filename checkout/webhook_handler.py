@@ -22,7 +22,7 @@ class StripeWH_Handler:
         return HttpResponse(
             content=f'Unhandled webhook received: {event["type"]}',
             status=200)
-    
+
     def handle_payment_intent_succeeded(self, event):
         """
         Handle the payment_intent.succeeded webhook from stripe
@@ -31,12 +31,18 @@ class StripeWH_Handler:
         pid = intent.id
         billing_details = intent.charges.data[0].billing_details
         order_total = round(intent.charges.data[0].amount / 100, 2)
-        treatment = get_object_or_404(Treatment, id=intent.charges.data[0].metadata.treatment)
-        barber = get_object_or_404(Barber, id=intent.charges.data[0].metadata.barber)
-        date = datetime.strptime(intent.charges.data[0].metadata.date, '%Y-%m-%d')
-        user = get_object_or_404(UserProfile, user=intent.charges.data[0].metadata.username)
-        # calling variable time_of_reservation to not clash with time imported on top
-        time_of_reservation = datetime.strptime(intent.charges.data[0].metadata.time, '%H:%M:%S')
+        treatment = get_object_or_404(
+            Treatment, id=intent.charges.data[0].metadata.treatment)
+        barber = get_object_or_404(
+            Barber, id=intent.charges.data[0].metadata.barber)
+        date = datetime.strptime(
+            intent.charges.data[0].metadata.date, '%Y-%m-%d')
+        user = get_object_or_404(
+            UserProfile, user=intent.charges.data[0].metadata.username)
+        # calling variable time_of_reservation to 
+        # not clash with time imported on top
+        time_of_reservation = datetime.strptime(
+            intent.charges.data[0].metadata.time, '%H:%M:%S')
         availability_id = int(intent.charges.data[0].metadata.availability_id)
         reservation_exists = False
         attempt = 1
