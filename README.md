@@ -22,7 +22,6 @@ On the website guests and registered users can make reservations choosing the da
 -   [User Stories](#user-stories)
 -   [The Scope Plane](#the-Scope-plane)
 -   [The Structure Plane](#the-structure-plane)
--   [Wireframes](#wireframes)
 -   [The Surface Plane](#the-surface-plane)
 
 
@@ -82,10 +81,11 @@ An admin user will also have access to:
 
 The Database structure is as follows:
 ![DB Schema](https://raw.githubusercontent.com/matteofiorini92/barbers/master/media/readme-media/db-schema.png)
+- For each User, the system creates a new UserProfile (1-1 relationship) to store additional information
+- Each Reservation is connected to 1 Treatment (many-1), 1 Barber (many-1) and 1 UserProfile (many-1)
+- Each Availability is connected to 1 Barber (many-1)
 
-### Wireframes
-
-- [Title](https://raw.githubusercontent.com/matteofiorini92/barbers/main/media/wireframes/xxx)
+- [Home Page Wireframe](https://raw.githubusercontent.com/matteofiorini92/barbers/master/media/readme-media/home-page-wireframe.png)
 
 ### The Surface Plane
 
@@ -128,8 +128,8 @@ The overall look is inspired by the website [Tweed Barbers](https://tweedbarbers
 ### Features Left to Implement
 
 For simplicity, the current booking system only allows to make a reservation for 1-30 days from the current date.
-These shoulde be customisable settings, but would also involve additional checks to avoid for example same day bookings for past times.
-Also, allowing bookings for more than 30 days in the future would mean increasing esponentially the number of slots in the booking-availabilities table of the database, which would make queries less performing and this would be beyond the scope of this project. 
+These should be customisable settings, but would also involve additional checks to avoid for example same day bookings for past times.
+Also, allowing bookings for more than 30 days in the future would mean increasing exponentially the number of slots in the booking-availabilities table of the database, which would make queries less performing and this would be beyond the scope of this project. 
 It would also be useful to implement a functionality to manage the calendar of the shop, marking barbers as off/sick or closed for bank holidays etc.
 
 
@@ -139,7 +139,7 @@ It would also be useful to implement a functionality to manage the calendar of t
 
 - HTML for the basic structure of the website
 - CSS for some custom styling of the website
-- [JQuery](https://code.jquery.com/) to initiate some interactive elements of the materialize framework
+- [JQuery](https://code.jquery.com/) to initiate some interactive elements of the bootstrap framework
 - [Bootstrap](https://getbootstrap.com/) v5.1 for some pre-formatted styling
 - [Django](https://www.djangoproject.com/) high-level Python web framework for back-end development
 - [Python] language used for back-end development
@@ -153,12 +153,12 @@ It would also be useful to implement a functionality to manage the calendar of t
 - [Heroku](https://www.heroku.com) to deploy the project
 - [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler) to implement a daily job that creates slots for the calendar
 - [Heroku Postgres](https://www.heroku.com/postgres) for the database of the deployed version on Heroku
-- [Balsamiq](https://balsamiq.com/) for the wireframes of this readme.md file
+- [Balsamiq](https://balsamiq.com/) for the wireframe of this readme.md file
 - [Photopea](https://www.photopea.com/) for image editing
 - [Fontawesome](https://fontawesome.com/) for the use of icons
 - [Stripe](https://stripe.com/) for the payment system
 - [AWS](https://aws.amazon.com/) for hosting the media used on the website
-- [Tables Generator](https://www.tablesgenerator.com) to generate the tables in markdown language used in in this readme
+- [Tables Generator](https://www.tablesgenerator.com) to generate the tables in markdown language used in this readme
 - [Coolors](https://coolors.co/) to generate the color palette used in this readme
 - [DBDiagram](https://dbdiagram.io/) to generate the database schema for this readme
 
@@ -177,13 +177,13 @@ The application functionalities were tested in three different scenarios:
 	- As a user, I can access using the login page and sign out using the logout page 
     - As a normal user, I was able to complete a reservation
 	- After completing the reservation, I received the confirmation email
-	- When trying to access the management pages as normal visitor, I am redirected to the home page with an error message
-	- I am able to access the My Profile page, see the list of up to 5 most recent reservations and to update my details
+	- When trying to access the management pages as a normal visitor, I am redirected to the home page with an error message
+	- I can access the My Profile page, see the list of up to 5 most recent reservations and update my details
 	
 3. Admin
 	- As a user, I can access using the login page and sign out using the logout page
-    - As an admin user I am able to make a reservation
-	- As an admin user I am able to update my contact details
+    - As an admin user I can make a reservation
+	- As an admin user I can update my contact details
 	- As an admin user I can access all pages of the website
 	- As an admin user I can create/edit/delete barbers
 	- As an admin user I can create/edit/delete treatments
@@ -227,10 +227,10 @@ They were both used on all the following pages:
 
 - When the project was started the file structure was incorrect (barbers > barbers_flo > Apps instead of barbers > Apps). The project was working fine in development but didn't work correctly once deployed because of this bug. Fixed by correcting the file structure.
 - The function that makes new availability slots if needed was called every time the calendar page was loaded. If the page was loaded twice in a short timeframe, availability slots would have been created twice.
-The same function was moved to a separate custom command that is run daily by Heroku Scheduler. Also, the funcion initially created the same slots for all barbers, so a newly created barber would only have availability slot for the end of the calendar.
+The same function was moved to a separate custom command that is run daily by Heroku Scheduler. Also, the function initially created the same slots for all barbers, so a newly created barber would only have availability slots for the end of the calendar.
 - Wrongly named the constant EMAIL_HOST_PASSWORD caused emails not to be sent. Correcting the constant name fixed the issue.
 - The reservations page for superusers had the date field set to gg/mm/yyyy once a date was submitted. This was due to the format of a variable (expected date, passed string instead).
-- The logic of the booking system was incorrect as it would allow to book a 2+ consecutive slots (e.g. for a treatment lasting 1 hour) even if only 30 minutes were available. Changed the logic to show available slots based on the duration of the chosen treatment.
+- The logic of the booking system was incorrect as it would allow to book 2+ consecutive slots (e.g. for a treatment lasting 1 hour) even if only 30 minutes were available. Changed the logic to show available slots based on the duration of the chosen treatment.
 
 ## Deployment
 
