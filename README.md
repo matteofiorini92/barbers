@@ -80,6 +80,9 @@ An admin user will also have access to:
 - Barbers Management: this section will allow them to create, update or delete barbers
 - Reservations: this section will allow them to see a specific day's list of reservations
 
+The Database structure is as follows:
+![DB Schema](https://raw.githubusercontent.com/matteofiorini92/barbers/master/media/readme-media/db-schema.png)
+
 ### Wireframes
 
 - [Title](https://raw.githubusercontent.com/matteofiorini92/barbers/main/media/wireframes/xxx)
@@ -87,7 +90,7 @@ An admin user will also have access to:
 ### The Surface Plane
 
 The color palette of the website will be:
-[Color Palette](https://raw.githubusercontent.com/matteofiorini92/barbers/main/media/wireframes/xxx)
+![Color Palette](https://raw.githubusercontent.com/matteofiorini92/barbers/master/media/readme-media/color-palette.png)
 The overall look is inspired by the website [Tweed Barbers](https://tweedbarbers.com/)
 
 ## Features
@@ -157,6 +160,7 @@ It would also be useful to implement a functionality to manage the calendar of t
 - [AWS](https://aws.amazon.com/) for hosting the media used on the website
 - [Tables Generator](https://www.tablesgenerator.com) to generate the tables in markdown language used in in this readme
 - [Coolors](https://coolors.co/) to generate the color palette used in this readme
+- [DBDiagram](https://dbdiagram.io/) to generate the database schema for this readme
 
 ## Testing
 
