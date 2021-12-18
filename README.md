@@ -167,19 +167,28 @@ It would also be useful to implement a functionality to manage the calendar of t
 The application functionalities were tested in three different scenarios:
 
 1. Visitor
-	-
-	-
-	-
+	- As a visitor, I was able to complete a reservation
+		- the Stripe test card number is 4242 4242 4242 4242, any future exp. date, any CVC
+	- After completing the reservation, I received the confirmation email
+	- When trying to access the management pages or the profile page as a normal visitor, I am redirected to the login page
+	- As a visitor I can register as a new user from the Register page
 
 2. User
-    - 
-	-
-	-
+	- As a user, I can access using the login page and sign out using the logout page 
+    - As a normal user, I was able to complete a reservation
+	- After completing the reservation, I received the confirmation email
+	- When trying to access the management pages as normal visitor, I am redirected to the home page with an error message
+	- I am able to access the My Profile page, see the list of up to 5 most recent reservations and to update my details
 	
 3. Admin
-    - 
-	-
-	-
+	- As a user, I can access using the login page and sign out using the logout page
+    - As an admin user I am able to make a reservation
+	- As an admin user I am able to update my contact details
+	- As an admin user I can access all pages of the website
+	- As an admin user I can create/edit/delete barbers
+	- As an admin user I can create/edit/delete treatments
+	- If a treatment is deleted, reservations with that treatment have the field set to NULL
+	- If a barber is deleted, reservations with that barber have the field set to NULL
 
 I used the following validators to check my HTML, CSS and JavaScript code:
 

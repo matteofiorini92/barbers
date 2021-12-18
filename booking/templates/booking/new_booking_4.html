@@ -20,14 +20,14 @@
             {% if availabilities%}
                 {% for availability in availabilities %}
                     {% if forloop.counter == 1 or forloop.counter|add:-1|divisibleby:6 %}
-                        <div class="col-3">
+                        <div class="col-4 col-md-3">
                     {% endif %}
                     {% if availability.available %}
                         <a href="{% url 'checkout' treatment.id barber.id availability.id %}"
-                            class="btn btn-dark mt-1 time-button rounded-0">{{ availability.time|time:'H:i' }}</a>
+                            class="btn btn-dark mt-1 time-button">{{ availability.time|time:'H:i' }}</a>
                     {% else %}
                         <a href="{% url 'checkout' treatment.id barber.id availability.id %}"
-                            class="btn btn-dark mt-1 time-button rounded-0 disabled">{{ availability.time|time:'H:i' }}</a>
+                            class="btn btn-dark mt-1 time-button disabled">{{ availability.time|time:'H:i' }}</a>
                     {% endif %}
                     {% if forloop.counter|divisibleby:6 or forloop.counter == availabilities|length %}
                         </div> 
