@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col">
+                <hr>
+                <h2 class="mb-4">404 Page Not Found</h2>
+                <h5>The page you are trying to access doesn't exist.</h5>
+                <hr>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <a href="/" class="btn btn-danger">Back to the HomePage</a>
+</div>
+{% endblock %}
